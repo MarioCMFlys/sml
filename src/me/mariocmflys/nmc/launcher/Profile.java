@@ -3,6 +3,9 @@ package me.mariocmflys.nmc.launcher;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+/**
+ * Object representing a profile. Data is at the discretion of the pack developer
+ */
 public class Profile {
 	/**
 	 * Unique modpack ID
