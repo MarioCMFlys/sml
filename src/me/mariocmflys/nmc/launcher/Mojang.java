@@ -13,25 +13,6 @@ import org.json.JSONObject;
 public class Mojang {
 	
 	public static String getJSON(String link, String body) throws IOException {
-        /**StringEntity entity = new StringEntity(body,
-                ContentType.APPLICATION_JSON);
-
-        HttpClient httpClient = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost(url);
-        request.setEntity(entity);
-
-        HttpResponse response = httpClient.execute(request);
-        latestStatus = response.getStatusLine().getStatusCode();
-        //response.getEntity().getContent().
-        
-        if(response.getEntity() == null) {
-        	return null;
-        }
-        else {
-        	return EntityUtils.toString(response.getEntity());
-        }
-        **/
-        
 		// new code: http://www.xyzws.com/Javafaq/how-to-use-httpurlconnection-post-data-to-web-server/139
         URL url;
         HttpURLConnection connection = null;  
@@ -109,6 +90,22 @@ public class Mojang {
 	 */
 	public static boolean validateToken(String token) {
 		String body = "{\"accessToken\": \""+token+"\"}";
+		try {
+			if(getJSON("https://authserver.mojang.com/validate", body) == null) {return false;}			
+			return true;
+		} catch(Exception e) {
+			return false;
+		}
+	}
+	
+	/**
+	 * Checks if access token is valid
+	 * @param accessToken Access token
+	 * @param clientToken Client identifier
+	 * @return True if valid access token 
+	 */
+	public static boolean validateToken(String accessToken, String clientToken) {
+		String body = "{\"accessToken\": \""+accessToken+"\", \"clientToken\": \""+clientToken+"\"}";
 		try {
 			if(getJSON("https://authserver.mojang.com/validate", body) == null) {return false;}			
 			return true;
