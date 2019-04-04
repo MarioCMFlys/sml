@@ -19,6 +19,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
+import me.mariocmflys.nmc.C;
 import me.mariocmflys.nmc.Instance;
 import me.mariocmflys.nmc.launcher.Mojang;
 import me.mariocmflys.nmc.launcher.Player;
@@ -79,6 +80,10 @@ public class LoginWindow extends JFrame {
 		fieldPassword = new JPasswordField();
 		contentPane.add(fieldPassword, "4, 8, fill, default");
 		fieldPassword.setColumns(10);
+		
+		JLabel lblVersion = new JLabel(C.VERSION);
+		lblVersion.setForeground(Color.GRAY);
+		contentPane.add(lblVersion, "2, 14");
 		
 		JLabel lblErr = new JLabel("");
 		lblErr.setForeground(Color.RED);
