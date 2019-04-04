@@ -75,6 +75,7 @@ public class Profile {
 		JSONObject j = new JSONObject(data);
 		id = j.getString("id");
 		displayName = j.getString("display_name");
+		author = j.getString("author");
 		version = j.getString("version");
 		mcVersion = j.getString("mc_version");
 		tweaks = (String[]) j.getJSONArray("tweaks").toList().toArray(new String[j.getJSONArray("tweaks").toList().size()]);

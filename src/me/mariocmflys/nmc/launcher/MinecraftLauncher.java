@@ -15,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import me.mariocmflys.nmc.Instance;
+import me.mariocmflys.nmc.launcher.OutputConsole.Type;
 
 /**
  * Static definitions for launch related functions
@@ -33,7 +34,7 @@ public class MinecraftLauncher {
 	 * @throws IOException
 	 */
 	public static void launch(Profile profile, Player player, 
-			File libDir, File clientDir, File workDir, File assetDir, File indexDir) throws FileNotFoundException, IOException {
+			File libDir, File clientDir, File workDir, File assetDir, File indexDir, OutputConsole console) throws FileNotFoundException, IOException {
 		File nativeFile = null;
 		nativeFile = Files.createTempDirectory("simplemc_natives").toFile();
 		String nativeDir = nativeFile.getAbsolutePath();
@@ -82,10 +83,10 @@ public class MinecraftLauncher {
 			File ftp = new File(libDir + File.separator + filename);
 			if(!ftp.exists()) {
 				try {
-					System.out.println("Pulling "+filename);
+					console.write("Pulling "+filename, Type.INIT);
 					FileUtils.copyURLToFile(new URL(fileToPull), ftp);
 				} catch (IOException e) {
-					System.err.println("Failed to download library " + filename + " from " + fileToPull);
+					console.write("Failed to download library " + filename + " from " + fileToPull, Type.ERROR);
 					e.printStackTrace();
 					continue;
 				}
@@ -93,17 +94,18 @@ public class MinecraftLauncher {
 			
 			if(l.getBoolean("native")) {
 				// extract native binaries to temp directory
-				System.out.println("Unzipping native package " + ftp.getAbsolutePath());
+				console.write("Unzipping native package " + ftp.getAbsolutePath(), Type.INIT);
 				try {
 					Zipper.extract(ftp.getAbsolutePath(), nativeDir);
 				} catch (IOException e) {
-					System.err.println("Failed to extract native library " + filename);
+					console.write("Failed to extract native library " + filename, Type.ERROR);
 					e.printStackTrace();
-					System.exit(1);
+					return;
 				}
 			}
 			else {
-				System.out.println("Added to classpath: " + ftp.getAbsolutePath());
+				console.write("Added to classpath: " + ftp.getAbsolutePath(), Type.INIT);
+				
 				classpath.add(ftp.getAbsolutePath());
 			}
 			
@@ -115,12 +117,12 @@ public class MinecraftLauncher {
 		File ctp = new File(clientDir + File.separator + filename);
 		if(!ctp.exists()) {
 			try {
-				System.out.println("Downloading client " + filename);
+				console.write("Downloading client " + filename, Type.INIT);
 				FileUtils.copyURLToFile(new URL(client), ctp);
 			} catch (IOException e) {
-				System.err.println("Failed to download client " + filename + " from " + client);
+				console.write("Failed to download client " + filename + " from " + client, Type.ERROR);
 				e.printStackTrace();
-				System.exit(1);
+				return;
 			}
 		}
 		classpath.add(ctp.getAbsolutePath());
@@ -131,12 +133,12 @@ public class MinecraftLauncher {
 		File atp = new File(indexDir + File.separator + filename);
 		if(!atp.exists()) {
 			try {
-				System.out.println("Downloading AssetIndex " + filename);
+				console.write("Downloading AssetIndex " + filename, Type.INIT);
 				FileUtils.copyURLToFile(new URL(assetIndex), atp);
 			} catch (IOException e) {
-				System.err.println("Failed to download AssetIndex " + filename + " from " + assetIndex);
+				console.write("Failed to download AssetIndex " + filename + " from " + assetIndex, Type.ERROR);
 				e.printStackTrace();
-				System.exit(1);
+				return;
 			}
 		}
 		
@@ -158,10 +160,10 @@ public class MinecraftLauncher {
 			if(!fileToMake.exists()) {
 				fileToMake.getParentFile().mkdirs();
 				try {
-					System.out.println("Downloading asset " + loc);
+					console.write("Downloading asset " + loc, Type.INIT);
 					FileUtils.copyURLToFile(new URL(place), fileToMake);
 				} catch (IOException e) {
-					System.out.println("Failed to download asset " + loc + " from " + place);
+					console.write("Failed to download asset " + loc + " from " + place, Type.ERROR);
 					e.printStackTrace();
 				}					
 			}
@@ -176,10 +178,10 @@ public class MinecraftLauncher {
 			if(!fileToMake.exists()) {
 				fileToMake.getParentFile().mkdirs();
 				try {
-					System.out.println("Downloading tree file " + f.getString("path"));
+					console.write("Downloading tree file " + f.getString("path"), Type.INIT);
 					FileUtils.copyURLToFile(new URL(place), fileToMake);
 				} catch (IOException e) {
-					System.out.println("Failed to download tree file " + f.getString("path") + " from " + place);
+					console.write("Failed to download tree file " + f.getString("path") + " from " + place, Type.ERROR);
 					e.printStackTrace();
 				}
 			}
@@ -236,13 +238,13 @@ public class MinecraftLauncher {
 		
 		String[] cmd = (String[]) launchArgs.toArray(new String[launchArgs.size()]);
 		
-		System.out.println("Starting game with cmdline: "+String.join(" ", cmd));
+		System.out.println("[DEBUG] Starting game with cmdline: "+String.join(" ", cmd));
 		
 		try {
 			Process p = Runtime.getRuntime().exec(cmd, null, workDir);
 			
-			StreamFeed feedError = new StreamFeed(p.getErrorStream(), System.err);
-			StreamFeed feedOut = new StreamFeed(p.getInputStream(), System.out);
+			StreamFeed feedError = new StreamFeed(p.getErrorStream(), console, OutputConsole.Type.ERROR);
+			StreamFeed feedOut = new StreamFeed(p.getInputStream(), console, OutputConsole.Type.NORMAL);
 			
 			feedError.start();
 			feedOut.start();
@@ -251,13 +253,13 @@ public class MinecraftLauncher {
 				p.waitFor();
 			} catch (InterruptedException e) {
 				p.destroy();
-				System.out.println("Terminating guest");
+				console.write("Terminating guest", Type.INIT);
 				e.printStackTrace();
 			}
 		    Instance.rmdir(nativeFile);
-		    System.out.println("[Launcher] Launcher successful exit");
+		    console.write("Successful exit", Type.INIT);
 		} catch (IOException e) {
-			System.err.println("[Launcher] Failed to launch");
+			System.err.println("Failed to launch");
 			e.printStackTrace();
 		}
 	}
