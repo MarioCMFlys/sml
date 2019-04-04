@@ -3,7 +3,9 @@ package me.mariocmflys.nmc.ui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,6 +38,12 @@ public class LoginWindow extends JFrame {
 		setResizable(false);
 		setTitle("Simple MC Launcher");
 		setBounds(100, 100, 450, 210);
+		try {
+			setIconImage(ImageIO.read(MainWindow.class.getResource("/icon.ico")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		JFrame loginFrame = this;
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

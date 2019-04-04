@@ -1,11 +1,13 @@
 package me.mariocmflys.nmc.ui;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 
 public class MainWindow {
 
@@ -39,6 +41,11 @@ public class MainWindow {
 		frame = new JFrame();
 		frame.setTitle("Simplified Minecraft Launcher");
 		frame.setBounds(100, 100, 720, 480);
+		try {
+			frame.setIconImage(ImageIO.read(MainWindow.class.getResource("/icon.ico")));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		frame.addWindowListener(new java.awt.event.WindowAdapter() {
 		    @Override
