@@ -1,8 +1,14 @@
 package me.mariocmflys.nmc;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 
 import javax.swing.UIManager;
+
+import org.apache.commons.io.FileUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import me.mariocmflys.nmc.launcher.Mojang;
 import me.mariocmflys.nmc.launcher.Player;
@@ -31,6 +37,25 @@ public class Launch {
 			e.printStackTrace();
 		}
 		
+		if(Instance.config.has("installed_profiles")) {
+			JSONArray profiles = Instance.config.getArray("installed_profiles");
+			for(int i = 0; i < profiles.toList().size(); i++) {
+				JSONObject j = profiles.getJSONObject(i);
+				String id = j.getString("id");
+				String url = j.getString("dist_url");
+				if(!url.equals("")) {
+					System.out.println("Updating profile " + id);
+					File file = new File(Instance.getDataDir() + File.separator + "profile" + File.separator + id + File.separator + "manifest.json");
+					try {
+						file.delete();
+						FileUtils.copyURLToFile(new URL(url), file);
+					} catch (IOException e) {
+						System.err.println("Failed to update profile " + id);
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 		
 		if(Instance.config.has("client_token") && Instance.config.has("access_token") &&
 				Instance.config.has("username") && Instance.config.has("uuid") &&

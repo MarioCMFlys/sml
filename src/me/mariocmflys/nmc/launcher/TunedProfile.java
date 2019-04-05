@@ -12,6 +12,7 @@ public class TunedProfile {
 	private String id;
 	private int memory;
 	private Profile profile;
+	private String dist_url;
 	
 	/**
 	 * Create a customized Profile object
@@ -20,6 +21,7 @@ public class TunedProfile {
 	public TunedProfile(JSONObject confObj) {
 		id = confObj.getString("id");
 		memory = confObj.getInt("memory");
+		dist_url = confObj.getString("dist_url");
 	}
 	
 	/**
@@ -46,6 +48,10 @@ public class TunedProfile {
 	 */
 	public int getAllocatedMemory() {
 		return memory;
+	}
+	
+	public String getSource() {
+		return dist_url;
 	}
 	
 	/**

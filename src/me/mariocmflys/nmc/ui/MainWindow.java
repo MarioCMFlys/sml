@@ -2,18 +2,25 @@ package me.mariocmflys.nmc.ui;
 
 import java.awt.BorderLayout;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+
+import me.mariocmflys.nmc.launcher.TunedProfile;
 
 public class MainWindow {
 
 	JFrame frame;
 	JTabbedPane tabbedPane;
 	boolean running = false;
+	
+	HashMap<Integer, TunedProfile> profiles = new HashMap<Integer, TunedProfile>();
+	JList<String> listProfiles;
 	
 	public MainWindow() {
 		initialize();
@@ -76,7 +83,7 @@ public class MainWindow {
 		JScrollPane scrollPrefs = new JScrollPane();
 		tabbedPane.addTab("Settings", null, scrollPrefs, null);
 		
-		JPanel panelPrefs = new PanelSettings();
+		JPanel panelPrefs = new PanelSettings(this);
 		scrollPrefs.setViewportView(panelPrefs);
 	}
 }

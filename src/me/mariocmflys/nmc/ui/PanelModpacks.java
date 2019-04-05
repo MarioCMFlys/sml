@@ -3,10 +3,10 @@ package me.mariocmflys.nmc.ui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
@@ -15,6 +15,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 import org.json.JSONArray;
 
@@ -27,13 +29,9 @@ import me.mariocmflys.nmc.Instance;
 import me.mariocmflys.nmc.launcher.MinecraftLauncher;
 import me.mariocmflys.nmc.launcher.Profile;
 import me.mariocmflys.nmc.launcher.TunedProfile;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
 
 @SuppressWarnings("serial")
 public class PanelModpacks extends JPanel {
-	HashMap<Integer, TunedProfile> profiles = new HashMap<Integer, TunedProfile>();
-	
 	public PanelModpacks(MainWindow mainWindow) {
 		setLayout(new BorderLayout(0, 0));
 		
@@ -43,8 +41,8 @@ public class PanelModpacks extends JPanel {
 		JScrollPane scrollProfiles = new JScrollPane();
 		splitPane.setLeftComponent(scrollProfiles);
 		
-		JList<String> listProfiles = new JList<String>();
-		scrollProfiles.setViewportView(listProfiles);
+		mainWindow.listProfiles = new JList<String>();
+		scrollProfiles.setViewportView(mainWindow.listProfiles);
 		
 		JPanel panelDetails = new JPanel();
 		splitPane.setRightComponent(panelDetails);
@@ -57,6 +55,8 @@ public class PanelModpacks extends JPanel {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblName = new JLabel("Name");
@@ -65,13 +65,17 @@ public class PanelModpacks extends JPanel {
 		JLabel lblAuthor = new JLabel("Author");
 		panelDetails.add(lblAuthor, "2, 4");
 		
+		JLabel lblNote = new JLabel("");
+		lblNote.setForeground(Color.RED);
+		panelDetails.add(lblNote, "2, 6");
+		
 		JButton btnLaunch = new JButton("Play");
 		btnLaunch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnLaunch.setEnabled(false);
 				btnLaunch.setText("Already playing!");
 
-				Profile profile = profiles.get(listProfiles.getSelectedIndex()).getProfile();
+				Profile profile = mainWindow.profiles.get(mainWindow.listProfiles.getSelectedIndex()).getProfile();
 				
 				try {
 					File libDir = new File(Instance.getDataDir() + File.separator + "lib");
@@ -122,30 +126,36 @@ public class PanelModpacks extends JPanel {
 			try {
 				TunedProfile p = new TunedProfile(pr.getJSONObject(i));
 				p.attachProfile();
-				profiles.put(profiles.size(), p);
+				mainWindow.profiles.put(mainWindow.profiles.size(), p);
 			} catch (FileNotFoundException e1) {
 				e1.printStackTrace();
 			}
 		}
 		
-		listProfiles.setModel(new AbstractListModel<String>() {
+		mainWindow.listProfiles.setModel(new AbstractListModel<String>() {
 			public int getSize() {
-				return profiles.size();
+				return mainWindow.profiles.size();
 			}
 			public String getElementAt(int index) {
-				return profiles.get(index).getProfile().getDisplayName();
+				return mainWindow.profiles.get(index).getProfile().getDisplayName();
 			}
 		});
 		
-		listProfiles.addListSelectionListener(new ListSelectionListener() {
+		mainWindow.listProfiles.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
-				TunedProfile tp = profiles.get(listProfiles.getSelectedIndex());
+				TunedProfile tp = mainWindow.profiles.get(mainWindow.listProfiles.getSelectedIndex());
 				lblName.setText(tp.getProfile().getDisplayName() + " (" + tp.getProfile().getVersion() + ")");
 				lblAuthor.setText("By " + tp.getProfile().getAuthor());
+				if(tp.getSource().equals("")) lblNote.setText("Installed locally");
+				else lblNote.setText("");
 			}
 		});
 		
-		if(profiles.size() >= 0) listProfiles.setSelectedIndex(0);
+		if(mainWindow.profiles.size() > 0) mainWindow.listProfiles.setSelectedIndex(0);
+		else {
+			lblName.setText("You have no profiles.");
+			lblAuthor.setText("Import a new profile in the Settings tab.");
+		}
 	}
 
 }
