@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Scanner;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -112,20 +113,26 @@ public class PanelSettings extends JPanel {
 		});
 		add(btnAdd, "4, 4");
 		
+		ButtonGroup grpCloseAction = new ButtonGroup();
+		
 		JLabel lblLauncherCloseAction = new JLabel("Close Button:");
 		add(lblLauncherCloseAction, "2, 6");
 		
 		JRadioButton rdbtnDoNothing = new JRadioButton("Does nothing");
+		grpCloseAction.add(rdbtnDoNothing);
 		add(rdbtnDoNothing, "4, 6");
 		
 		JRadioButton rdbtnMinimizesLauncher = new JRadioButton("Minimizes Launcher");
+		grpCloseAction.add(rdbtnMinimizesLauncher);
 		add(rdbtnMinimizesLauncher, "4, 8");
 		
 		JRadioButton rdbtnHidesLauncher = new JRadioButton("Hides launcher");
+		rdbtnHidesLauncher.setSelected(true);
+		grpCloseAction.add(rdbtnHidesLauncher);
 		add(rdbtnHidesLauncher, "4, 10");
 		
-		JRadioButton rdbtnExitsLauncher = new JRadioButton("Exits launcher");
+		JRadioButton rdbtnExitsLauncher = new JRadioButton("Closes launcher");
+		grpCloseAction.add(rdbtnExitsLauncher);
 		add(rdbtnExitsLauncher, "4, 12");
-		
 	}
 }
