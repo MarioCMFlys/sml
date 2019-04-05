@@ -14,6 +14,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import me.mariocmflys.nmc.C;
 import me.mariocmflys.nmc.Instance;
 import me.mariocmflys.nmc.launcher.OutputConsole.Type;
 
@@ -33,8 +34,13 @@ public class MinecraftLauncher {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static void launch(Profile profile, Player player, 
-			File libDir, File clientDir, File workDir, File assetDir, File indexDir, OutputConsole console) throws FileNotFoundException, IOException {
+	public static void launch(TunedProfile tprofile, Player player, 
+			File libDir, File clientDir, File workDir, File assetDir, 
+			File indexDir, OutputConsole console) throws FileNotFoundException, IOException {
+		console.write("Simplified Minecraft Launcher " + C.VERSION, Type.INIT);
+		
+		Profile profile = tprofile.getProfile();
+		
 		File nativeFile = null;
 		nativeFile = Files.createTempDirectory("simplemc_natives").toFile();
 		String nativeDir = nativeFile.getAbsolutePath();
@@ -45,6 +51,7 @@ public class MinecraftLauncher {
 		
 		JSONArray libs = profile.getLibraries();
 		
+		// Libraries
 		for(int i = 0; i < libs.length(); i++) {
 			JSONObject l = libs.getJSONObject(i);
 			
@@ -169,6 +176,33 @@ public class MinecraftLauncher {
 			}
 		}
 		
+		// Apply working directory upgrade instructions
+		if(!tprofile.getInstalledVersion().equals(tprofile.getProfile().getVersion())) {
+			JSONArray upgrades = profile.getUpgradeInstructions();
+			
+			for(int i = 0; i < upgrades.toList().size(); i++) {
+				JSONObject u = upgrades.getJSONObject(i);
+				if(u.getString("action").equalsIgnoreCase("delete")) {
+					console.write("Upgrade removing file " + u.getString("path"), Type.INIT);
+					new File(workDir + File.separator + Instance.replacePathSeparators(u.getString("path"))).delete();
+				}
+			}
+			
+			JSONArray prof = Instance.config.getArray("installed_profiles");
+			for(int i = 0; i < prof.toList().size(); i++) {
+				JSONObject j = prof.getJSONObject(i);
+				if(j.getString("id").equals(tprofile.getID())) {
+					j.remove("version");
+					j.put("version", profile.getVersion());
+					break;
+				}
+			}
+			Instance.config.remove("installed_profiles");
+			Instance.config.set("installed_profiles", prof);
+			Instance.config.save();
+		}
+		
+		// Working directory files
 		JSONArray files = profile.getFiles();
 		
 		for(int i = 0; i < files.toList().size(); i++) {

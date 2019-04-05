@@ -13,6 +13,7 @@ public class TunedProfile {
 	private int memory;
 	private Profile profile;
 	private String dist_url;
+	private String version;
 	
 	/**
 	 * Create a customized Profile object
@@ -22,6 +23,7 @@ public class TunedProfile {
 		id = confObj.getString("id");
 		memory = confObj.getInt("memory");
 		dist_url = confObj.getString("dist_url");
+		version = confObj.getString("version");
 	}
 	
 	/**
@@ -50,8 +52,20 @@ public class TunedProfile {
 		return memory;
 	}
 	
+	/**
+	 * Get URL of installation source
+	 * @return Installation source or empty for locally installed
+	 */
 	public String getSource() {
 		return dist_url;
+	}
+	
+	/**
+	 * Get last version upgraded to
+	 * @return Installed version
+	 */
+	public String getInstalledVersion() {
+		return version;
 	}
 	
 	/**

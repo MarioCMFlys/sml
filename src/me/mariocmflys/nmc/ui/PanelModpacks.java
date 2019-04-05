@@ -74,8 +74,9 @@ public class PanelModpacks extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				btnLaunch.setEnabled(false);
 				btnLaunch.setText("Already playing!");
-
-				Profile profile = mainWindow.profiles.get(mainWindow.listProfiles.getSelectedIndex()).getProfile();
+				
+				TunedProfile tprofile = mainWindow.profiles.get(mainWindow.listProfiles.getSelectedIndex());
+				Profile profile = tprofile.getProfile();
 				
 				try {
 					File libDir = new File(Instance.getDataDir() + File.separator + "lib");
@@ -100,7 +101,7 @@ public class PanelModpacks extends JPanel {
 								pc.write("Error", PanelConsole.STYLE_ERROR);
 								pc.write("Regular once more", null);**/
 								
-								MinecraftLauncher.launch(profile, Instance.player, libDir, clientDir, workDir, assetDir, indexDir, pc);
+								MinecraftLauncher.launch(tprofile, Instance.player, libDir, clientDir, workDir, assetDir, indexDir, pc);
 							} catch (IOException e) {
 								e.printStackTrace();
 							}
@@ -146,7 +147,8 @@ public class PanelModpacks extends JPanel {
 				TunedProfile tp = mainWindow.profiles.get(mainWindow.listProfiles.getSelectedIndex());
 				lblName.setText(tp.getProfile().getDisplayName() + " (" + tp.getProfile().getVersion() + ")");
 				lblAuthor.setText("By " + tp.getProfile().getAuthor());
-				if(tp.getSource().equals("")) lblNote.setText("Installed locally");
+				if(!tp.getInstalledVersion().equals(tp.getProfile().getVersion())) lblNote.setText("Upgrades next launch");
+				else if(tp.getSource().equals("")) lblNote.setText("Installed locally");
 				else lblNote.setText("");
 			}
 		});

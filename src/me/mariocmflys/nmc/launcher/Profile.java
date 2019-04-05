@@ -68,6 +68,11 @@ public class Profile {
 	private JSONArray libraries;
 	
 	/**
+	 * Manifest upgrading instructions
+	 */
+	private JSONArray upgradeInstructions;
+	
+	/**
 	 * Object representing a profile. Data is at the discretion of the pack developer
 	 * @param data JSON representation of profile
 	 */
@@ -85,6 +90,7 @@ public class Profile {
 		downloads = j.getJSONObject("downloads");
 		files = j.getJSONArray("files");
 		libraries = j.getJSONArray("libraries");
+		upgradeInstructions = j.getJSONArray("upgrade");
 	}
 	
 	/**
@@ -181,5 +187,13 @@ public class Profile {
 	 */
 	public JSONArray getLibraries() {
 		return libraries;
+	}
+
+	/**
+	 * Gets manifest instructions for upgrading 
+	 * @return Array of upgrade instructions
+	 */
+	public JSONArray getUpgradeInstructions() {
+		return upgradeInstructions;
 	}
 }
