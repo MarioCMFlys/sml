@@ -39,7 +39,7 @@ public class Instance {
 	 * @return Path to NMC data directory
 	 */
 	public static String getDataDir() {
-		return System.getProperty("user.home") + File.separator + ".newmc";
+		return System.getProperty("user.home") + File.separator + ".sml";
 	}
 	
 	/**
