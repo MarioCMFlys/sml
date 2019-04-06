@@ -227,7 +227,7 @@ public class MinecraftLauncher {
 		String cp = classpath.get(0);
 		for(int i = 1; i < classpath.size(); i++) {
 			String c = classpath.get(i);
-			cp = cp + ":" + c;
+			cp = cp + File.pathSeparator + c;
 		}
 		
 		ArrayList<String> launchArgs = new ArrayList<String>();

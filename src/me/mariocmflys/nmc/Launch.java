@@ -25,6 +25,8 @@ public class Launch {
 		System.out.println("java.version: " + System.getProperty("java.version"));
 		System.out.println("java.vendor: " + System.getProperty("java.vendor"));
 		System.out.println("sun.arch.data.model: " + System.getProperty("sun.arch.data.model"));
+		System.out.println("File.pathSeparator: " + File.pathSeparator);
+		System.out.println("File.separator: " + File.separator);
 		
 		Instance.config = new Config(Instance.getDataDir() + File.separator + "launcher.json");
 		Instance.config.create();
@@ -55,6 +57,10 @@ public class Launch {
 					}
 				}
 			}
+		}
+		else {
+			Instance.config.set("installed_profiles", new JSONArray());
+			Instance.config.save();
 		}
 		
 		if(Instance.config.has("client_token") && Instance.config.has("access_token") &&

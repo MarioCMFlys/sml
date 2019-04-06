@@ -39,7 +39,7 @@ public class Instance {
 	 * @return "windows", "osx", "linux", or "other"
 	 */
 	public static String getOSType() {
-		String os = System.getProperty("os.name");
+		String os = System.getProperty("os.name").toLowerCase();
 		if(os.indexOf("win") >= 0) {
 			return "windows";
 		}

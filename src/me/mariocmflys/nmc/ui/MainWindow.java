@@ -47,7 +47,7 @@ public class MainWindow {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle("Simplified Minecraft Launcher");
-		frame.setBounds(100, 100, 720, 480);
+		frame.setBounds(100, 100, 800, 480);
 		try {
 			frame.setIconImage(ImageIO.read(MainWindow.class.getResource("/icon.ico")));
 		} catch (IOException e) {

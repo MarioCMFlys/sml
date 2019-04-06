@@ -91,6 +91,7 @@ public class PanelSettings extends JPanel {
 					tpJson.put("id", id);
 					tpJson.put("memory", 1000);
 					tpJson.put("dist_url", url);
+					tpJson.put("version", p.getVersion());
 					TunedProfile tp = new TunedProfile(tpJson);
 					tp.attachProfile();
 					
