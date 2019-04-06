@@ -1,9 +1,11 @@
 package me.mariocmflys.nmc.ui;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -16,6 +18,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import org.apache.commons.io.FileUtils;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -24,6 +27,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
+import me.mariocmflys.nmc.C;
 import me.mariocmflys.nmc.Instance;
 import me.mariocmflys.nmc.launcher.Profile;
 import me.mariocmflys.nmc.launcher.TunedProfile;
@@ -38,6 +42,12 @@ public class PanelSettings extends JPanel {
 				FormSpecs.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
@@ -114,26 +124,65 @@ public class PanelSettings extends JPanel {
 		});
 		add(btnAdd, "4, 4");
 		
+		
 		ButtonGroup grpCloseAction = new ButtonGroup();
 		
 		JLabel lblLauncherCloseAction = new JLabel("Close Button:");
 		add(lblLauncherCloseAction, "2, 6");
 		
 		JRadioButton rdbtnDoNothing = new JRadioButton("Does nothing");
+		rdbtnDoNothing.setEnabled(false);
 		grpCloseAction.add(rdbtnDoNothing);
 		add(rdbtnDoNothing, "4, 6");
 		
 		JRadioButton rdbtnMinimizesLauncher = new JRadioButton("Minimizes Launcher");
+		rdbtnMinimizesLauncher.setEnabled(false);
 		grpCloseAction.add(rdbtnMinimizesLauncher);
 		add(rdbtnMinimizesLauncher, "4, 8");
 		
 		JRadioButton rdbtnHidesLauncher = new JRadioButton("Hides launcher");
+		rdbtnHidesLauncher.setEnabled(false);
 		rdbtnHidesLauncher.setSelected(true);
 		grpCloseAction.add(rdbtnHidesLauncher);
 		add(rdbtnHidesLauncher, "4, 10");
 		
 		JRadioButton rdbtnExitsLauncher = new JRadioButton("Closes launcher");
+		rdbtnExitsLauncher.setEnabled(false);
 		grpCloseAction.add(rdbtnExitsLauncher);
 		add(rdbtnExitsLauncher, "4, 12");
+		
+		
+		JLabel lblAbout = new JLabel("About");
+		add(lblAbout, "2, 14");
+		
+		JLabel lblAboutVersion = new JLabel("SML version " + C.VERSION.toUpperCase());
+		add(lblAboutVersion, "4, 14");
+		
+		JLabel lblAboutBootstrap = new JLabel(
+				(Instance.getBootstrapVersion() != null ? "Bootstrap version " + Instance.getBootstrapVersion().toUpperCase() : "Not using bootstrap"));
+		add(lblAboutBootstrap, "4, 16");
+		
+		JLabel lblAboutCopyright = new JLabel("Copyright 2019 MarioCMFlys");
+		add(lblAboutCopyright, "4, 18");
+		
+		JButton lnkLicense = new JButton();
+	    lnkLicense.setText("License Information");
+	    lnkLicense.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (Desktop.isDesktopSupported()) {
+					String url = "https://mariocmflys.tk/stuff/launcher/license/" + C.VERSION + ".html";
+					try {
+						Desktop.getDesktop().browse(URI.create(url));
+					}
+					catch(IOException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(mainWindow.frame, 
+								"Access license information at " + url, 
+								"Message", JOptionPane.INFORMATION_MESSAGE);
+					}
+				}
+			}
+		});
+	    add(lnkLicense, "4, 20");
 	}
 }

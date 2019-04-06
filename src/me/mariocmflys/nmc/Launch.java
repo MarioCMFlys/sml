@@ -24,6 +24,7 @@ public class Launch {
 		System.out.println("os.arch: " + System.getProperty("os.arch"));
 		System.out.println("java.version: " + System.getProperty("java.version"));
 		System.out.println("java.vendor: " + System.getProperty("java.vendor"));
+		System.out.println("java.vm.name: " + System.getProperty("java.vm.name"));
 		System.out.println("sun.arch.data.model: " + System.getProperty("sun.arch.data.model"));
 		System.out.println("File.pathSeparator: " + File.pathSeparator);
 		System.out.println("File.separator: " + File.separator);

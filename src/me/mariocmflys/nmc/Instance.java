@@ -27,6 +27,14 @@ public class Instance {
 	}
 	
 	/**
+	 * Get Bootstrap version
+	 * @return Version information sent at runtime by bootstrap
+	 */
+	public static String getBootstrapVersion() {
+		return System.getProperty("bootstrap_version");
+	}
+	
+	/**
 	 * Gets NMC data directory
 	 * @return Path to NMC data directory
 	 */
