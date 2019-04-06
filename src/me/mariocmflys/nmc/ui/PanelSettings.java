@@ -1,11 +1,11 @@
 package me.mariocmflys.nmc.ui;
 
-import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.net.URL;
 import java.util.Scanner;
 
@@ -18,7 +18,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 import org.apache.commons.io.FileUtils;
-
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -162,24 +162,22 @@ public class PanelSettings extends JPanel {
 				(Instance.getBootstrapVersion() != null ? "Bootstrap version " + Instance.getBootstrapVersion().toUpperCase() : "Not using bootstrap"));
 		add(lblAboutBootstrap, "4, 16");
 		
-		JLabel lblAboutCopyright = new JLabel("Copyright 2019 MarioCMFlys");
+		JLabel lblAboutCopyright = new JLabel("Copyright 2017-2019 MarioCMFlys");
 		add(lblAboutCopyright, "4, 18");
 		
 		JButton lnkLicense = new JButton();
 	    lnkLicense.setText("License Information");
 	    lnkLicense.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (Desktop.isDesktopSupported()) {
-					String url = "https://mariocmflys.tk/stuff/launcher/license/" + C.VERSION + ".html";
-					try {
-						Desktop.getDesktop().browse(URI.create(url));
-					}
-					catch(IOException e1) {
-						e1.printStackTrace();
-						JOptionPane.showMessageDialog(mainWindow.frame, 
-								"Access license information at " + url, 
-								"Message", JOptionPane.INFORMATION_MESSAGE);
-					}
+				InputStream lStream = PanelSettings.class.getResourceAsStream("/LICENSE.txt");
+				StringWriter writer = new StringWriter();
+				try {
+					IOUtils.copy(lStream, writer, "utf-8");
+					String license = writer.toString();
+					new BrowserDialog("text/plain", "License", license).setVisible(true);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+					JOptionPane.showMessageDialog(mainWindow.frame, "License information available in LICENSE.txt of this Jarfile", "License", JOptionPane.INFORMATION_MESSAGE);
 				}
 			}
 		});
