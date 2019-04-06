@@ -2,6 +2,9 @@ package me.mariocmflys.nmc.ui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
@@ -33,6 +36,8 @@ public class PanelConsole extends JPanel implements OutputConsole {
 		scrollPane.setViewportView(txtConsole);
 		
 	}
+	
+	@Override
 	public void write(String text, OutputConsole.Type type) {
 		type.getPrintStream().println(text);
 		
@@ -50,6 +55,12 @@ public class PanelConsole extends JPanel implements OutputConsole {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}
-		
+	}
+	
+	@Override
+	public void write(Exception e, Type type) {
+		StringWriter stackTrace = new StringWriter();
+		e.printStackTrace(new PrintWriter(stackTrace));
+		write(stackTrace.toString(), type);
 	}
 }

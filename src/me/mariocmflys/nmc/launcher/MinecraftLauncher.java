@@ -41,6 +41,13 @@ public class MinecraftLauncher {
 		
 		Profile profile = tprofile.getProfile();
 		
+		try {
+			throw new Exception("YOLO");
+		}
+		catch(Exception e) {
+			console.write(e, Type.ERROR);
+		}
+		
 		File nativeFile = null;
 		nativeFile = Files.createTempDirectory("simplemc_natives").toFile();
 		String nativeDir = nativeFile.getAbsolutePath();
@@ -94,7 +101,7 @@ public class MinecraftLauncher {
 					FileUtils.copyURLToFile(new URL(fileToPull), ftp);
 				} catch (IOException e) {
 					console.write("Failed to download library " + filename + " from " + fileToPull, Type.ERROR);
-					e.printStackTrace();
+					console.write(e, Type.ERROR);
 					continue;
 				}
 			}
@@ -106,7 +113,7 @@ public class MinecraftLauncher {
 					Zipper.extract(ftp.getAbsolutePath(), nativeDir);
 				} catch (IOException e) {
 					console.write("Failed to extract native library " + filename, Type.ERROR);
-					e.printStackTrace();
+					console.write(e, Type.ERROR);
 					return;
 				}
 			}
@@ -128,7 +135,7 @@ public class MinecraftLauncher {
 				FileUtils.copyURLToFile(new URL(client), ctp);
 			} catch (IOException e) {
 				console.write("Failed to download client " + filename + " from " + client, Type.ERROR);
-				e.printStackTrace();
+				console.write(e, Type.ERROR);
 				return;
 			}
 		}
@@ -144,7 +151,7 @@ public class MinecraftLauncher {
 				FileUtils.copyURLToFile(new URL(assetIndex), atp);
 			} catch (IOException e) {
 				console.write("Failed to download AssetIndex " + filename + " from " + assetIndex, Type.ERROR);
-				e.printStackTrace();
+				console.write(e, Type.ERROR);
 				return;
 			}
 		}
@@ -171,7 +178,7 @@ public class MinecraftLauncher {
 					FileUtils.copyURLToFile(new URL(place), fileToMake);
 				} catch (IOException e) {
 					console.write("Failed to download asset " + loc + " from " + place, Type.ERROR);
-					e.printStackTrace();
+					console.write(e, Type.ERROR);
 				}					
 			}
 		}
@@ -216,7 +223,7 @@ public class MinecraftLauncher {
 					FileUtils.copyURLToFile(new URL(place), fileToMake);
 				} catch (IOException e) {
 					console.write("Failed to download tree file " + f.getString("path") + " from " + place, Type.ERROR);
-					e.printStackTrace();
+					console.write(e, Type.ERROR);
 				}
 			}
 		}
@@ -288,13 +295,13 @@ public class MinecraftLauncher {
 			} catch (InterruptedException e) {
 				p.destroy();
 				console.write("Terminating guest", Type.INIT);
-				e.printStackTrace();
+				console.write(e, Type.ERROR);
 			}
 		    Instance.rmdir(nativeFile);
 		    console.write("Successful exit", Type.INIT);
 		} catch (IOException e) {
-			System.err.println("Failed to launch");
-			e.printStackTrace();
+			console.write("Failed to launch", Type.ERROR);
+			console.write(e, Type.ERROR);
 		}
 	}
 }
