@@ -85,6 +85,8 @@ public class Launch {
 				accessToken = Mojang.refreshToken(accessToken, clientToken);
 				if(accessToken != null) {
 					System.out.println("Successfully revalidated token, logged in as " + username);
+					Instance.config.set("access_token", accessToken);
+					Instance.config.save();
 					Instance.player = new Player(username, userUUID, accessToken, userType, userProperties);
 					MainWindow window = new MainWindow();
 					window.setVisible(true);
