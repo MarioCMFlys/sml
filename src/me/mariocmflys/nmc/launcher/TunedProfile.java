@@ -53,6 +53,14 @@ public class TunedProfile {
 	}
 	
 	/**
+	 * Sets object allocated memory
+	 * @param memory New allocated memory in megabytes
+	 */
+	public void setAllocatedMemory(int memory) {
+		this.memory = memory;
+	}
+	
+	/**
 	 * Get URL of installation source
 	 * @return Installation source or empty for locally installed
 	 */

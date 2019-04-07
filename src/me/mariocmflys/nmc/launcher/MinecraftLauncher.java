@@ -41,13 +41,6 @@ public class MinecraftLauncher {
 		
 		Profile profile = tprofile.getProfile();
 		
-		try {
-			throw new Exception("YOLO");
-		}
-		catch(Exception e) {
-			console.write(e, Type.ERROR);
-		}
-		
 		File nativeFile = null;
 		nativeFile = Files.createTempDirectory("simplemc_natives").toFile();
 		String nativeDir = nativeFile.getAbsolutePath();
@@ -243,7 +236,7 @@ public class MinecraftLauncher {
 		launchArgs.add(Instance.getJavaBinary());
 		
 		// Runtime arguments
-		launchArgs.add("-Xmx1G");
+		launchArgs.add("-Xmx" + tprofile.getAllocatedMemory() + "M");
 		launchArgs.add("-XX:+UseConcMarkSweepGC");
 		launchArgs.add("-XX:+CMSIncrementalMode");
 		launchArgs.add("-XX:-UseAdaptiveSizePolicy");

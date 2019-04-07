@@ -12,6 +12,7 @@ import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -19,6 +20,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -29,6 +31,10 @@ import me.mariocmflys.nmc.Instance;
 import me.mariocmflys.nmc.launcher.MinecraftLauncher;
 import me.mariocmflys.nmc.launcher.Profile;
 import me.mariocmflys.nmc.launcher.TunedProfile;
+import javax.swing.JSlider;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.border.TitledBorder;
 
 @SuppressWarnings("serial")
 public class PanelModpacks extends JPanel {
@@ -46,7 +52,26 @@ public class PanelModpacks extends JPanel {
 		
 		JPanel panelDetails = new JPanel();
 		splitPane.setRightComponent(panelDetails);
-		panelDetails.setLayout(new FormLayout(new ColumnSpec[] {
+		panelDetails.setLayout(null);
+		
+		JLabel lblName = new JLabel("Name");
+		lblName.setBounds(7, 7, 200, 15);
+		panelDetails.add(lblName);
+		
+		JLabel lblAuthor = new JLabel("Author");
+		lblAuthor.setBounds(7, 29, 200, 15);
+		panelDetails.add(lblAuthor);
+		
+		JLabel lblNote = new JLabel("");
+		lblNote.setBounds(7, 56, 200, 15);
+		lblNote.setForeground(Color.RED);
+		panelDetails.add(lblNote);
+		
+		JPanel panelSettings = new JPanel();
+		panelSettings.setBorder(new TitledBorder(null, "User Settings", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		panelSettings.setBounds(7, 97, 315, 153);
+		panelDetails.add(panelSettings);
+		panelSettings.setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
 				FormSpecs.DEFAULT_COLSPEC,
 				FormSpecs.RELATED_GAP_COLSPEC,
@@ -59,15 +84,46 @@ public class PanelModpacks extends JPanel {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblName = new JLabel("Name");
-		panelDetails.add(lblName, "2, 2");
+		JLabel lblMemory = new JLabel("Memory: ");
+		panelSettings.add(lblMemory, "4, 4");
 		
-		JLabel lblAuthor = new JLabel("Author");
-		panelDetails.add(lblAuthor, "2, 4");
+		JSlider sliderMemory = new JSlider();
+		panelSettings.add(sliderMemory, "4, 2");
+		sliderMemory.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				lblMemory.setText("Memory: " + sliderMemory.getValue() + "M");
+			}
+		});
+		sliderMemory.setMinorTickSpacing(250);
+		sliderMemory.setMajorTickSpacing(1000);
+		sliderMemory.setPaintTicks(true);
+		sliderMemory.setMaximum(6000);
+		sliderMemory.setSnapToTicks(true);
+		sliderMemory.setValue(1000);
 		
-		JLabel lblNote = new JLabel("");
-		lblNote.setForeground(Color.RED);
-		panelDetails.add(lblNote, "2, 6");
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int mem = sliderMemory.getValue();
+				TunedProfile tprofile = mainWindow.profiles.get(mainWindow.listProfiles.getSelectedIndex());
+				tprofile.setAllocatedMemory(mem);
+				
+				
+				JSONArray prof = Instance.config.getArray("installed_profiles");
+				for(int i = 0; i < prof.toList().size(); i++) {
+					JSONObject j = prof.getJSONObject(i);
+					if(j.getString("id").equals(tprofile.getID())) {
+						j.put("memory", mem);
+						break;
+					}
+				}
+				Instance.config.remove("installed_profiles");
+				Instance.config.set("installed_profiles", prof);
+				Instance.config.save();
+				JOptionPane.showMessageDialog(mainWindow.frame, "Profile settings saved.", "Profile Management", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
+		panelSettings.add(btnSave, "4, 6");
 		
 		JButton btnLaunch = new JButton("Play");
 		btnLaunch.addActionListener(new ActionListener() {
@@ -117,6 +173,7 @@ public class PanelModpacks extends JPanel {
 				} catch (Exception e1) {
 					System.err.println("Fatal error occured while launching the game");
 					e1.printStackTrace();
+					JOptionPane.showMessageDialog(mainWindow.frame, "Failed to initialize launcher, see log for details", "Launch", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -150,6 +207,8 @@ public class PanelModpacks extends JPanel {
 				if(!tp.getInstalledVersion().equals(tp.getProfile().getVersion())) lblNote.setText("Upgrades next launch");
 				else if(tp.getSource().equals("")) lblNote.setText("Installed locally");
 				else lblNote.setText("");
+				
+				sliderMemory.setValue(tp.getAllocatedMemory());
 			}
 		});
 		
@@ -159,5 +218,4 @@ public class PanelModpacks extends JPanel {
 			lblAuthor.setText("Import a new profile in the Settings tab.");
 		}
 	}
-
 }
