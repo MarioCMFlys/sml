@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -29,6 +27,7 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import me.mariocmflys.nmc.Instance;
 import me.mariocmflys.nmc.launcher.MinecraftLauncher;
+import me.mariocmflys.nmc.launcher.OutputConsole.Type;
 import me.mariocmflys.nmc.launcher.Profile;
 import me.mariocmflys.nmc.launcher.TunedProfile;
 import javax.swing.JSlider;
@@ -148,18 +147,15 @@ public class PanelModpacks extends JPanel {
 					
 					new Thread() {
 						public void run() {
+							PanelConsole pc = new PanelConsole();
+							mainWindow.running = true;
+							mainWindow.tabbedPane.addTab("Game Log", null, pc, null);
+							mainWindow.tabbedPane.setSelectedComponent(pc);
 							try {
-								mainWindow.running = true;
-								PanelConsole pc = new PanelConsole();
-								mainWindow.tabbedPane.addTab("Game Log", null, pc, null);
-								mainWindow.tabbedPane.setSelectedComponent(pc);
-								/**pc.write("Regular", null);
-								pc.write("Error", PanelConsole.STYLE_ERROR);
-								pc.write("Regular once more", null);**/
-								
 								MinecraftLauncher.launch(tprofile, Instance.player, libDir, clientDir, workDir, assetDir, indexDir, pc);
-							} catch (IOException e) {
-								e.printStackTrace();
+							} catch (Exception e) {
+								pc.write("Failed to launch", Type.ERROR);
+								pc.write(e, Type.ERROR);
 							}
 							btnLaunch.setEnabled(true);
 							btnLaunch.setText("Play");
