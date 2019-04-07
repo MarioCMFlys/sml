@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.UIManager;
 
 import org.apache.commons.io.FileUtils;
@@ -14,6 +15,7 @@ import me.mariocmflys.nmc.launcher.Mojang;
 import me.mariocmflys.nmc.launcher.Player;
 import me.mariocmflys.nmc.ui.LoginWindow;
 import me.mariocmflys.nmc.ui.MainWindow;
+import me.mariocmflys.nmc.ui.ProgressDialog;
 
 public class Launch {
 	public static void main(String[] args) {
@@ -42,21 +44,34 @@ public class Launch {
 		
 		if(Instance.config.has("installed_profiles")) {
 			JSONArray profiles = Instance.config.getArray("installed_profiles");
-			for(int i = 0; i < profiles.toList().size(); i++) {
-				JSONObject j = profiles.getJSONObject(i);
-				String id = j.getString("id");
-				String url = j.getString("dist_url");
-				if(!url.equals("")) {
-					System.out.println("Updating profile " + id);
-					File file = new File(Instance.getDataDir() + File.separator + "profile" + File.separator + id + File.separator + "manifest.json");
-					try {
-						file.delete();
-						FileUtils.copyURLToFile(new URL(url), file);
-					} catch (IOException e) {
-						System.err.println("Failed to update profile " + id);
-						e.printStackTrace();
-					}
+			if(profiles.toList().size() > 0) {
+				int size = profiles.toList().size();
+				ProgressDialog p = new ProgressDialog("Simplified Minecraft Launcher", "Updating profiles", 0, size, 0);
+				try {
+					p.setIconImage(ImageIO.read(MainWindow.class.getResource("/icon.png")));
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
+				p.setVisible(true);
+				for(int i = 0; i < size; i++) {
+					JSONObject j = profiles.getJSONObject(i);
+					p.updateLabel("Updating profiles (" + (i + 1) + " out of " + size + ")");
+					String id = j.getString("id");
+					String url = j.getString("dist_url");
+					if(!url.equals("")) {
+						System.out.println("Updating profile " + id);
+						File file = new File(Instance.getDataDir() + File.separator + "profile" + File.separator + id + File.separator + "manifest.json");
+						try {
+							file.delete();
+							FileUtils.copyURLToFile(new URL(url), file);
+						} catch (IOException e) {
+							System.err.println("Failed to update profile " + id);
+							e.printStackTrace();
+						}
+					}
+					p.updateValue(i+1);
+				}
+				p.close();
 			}
 		}
 		else {
