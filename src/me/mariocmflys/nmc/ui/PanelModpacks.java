@@ -205,6 +205,8 @@ public class PanelModpacks extends JPanel {
 				else lblNote.setText("");
 				
 				sliderMemory.setValue(tp.getAllocatedMemory());
+				
+				panelSettings.setVisible(true);
 			}
 		});
 		
@@ -212,6 +214,8 @@ public class PanelModpacks extends JPanel {
 		else {
 			lblName.setText("You have no profiles.");
 			lblAuthor.setText("Import a new profile in the Settings tab.");
+			
+			panelSettings.setVisible(false);
 		}
 	}
 }
