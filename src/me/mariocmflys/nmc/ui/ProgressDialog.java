@@ -13,11 +13,35 @@ public class ProgressDialog extends JFrame {
 	private JProgressBar progressBar;
 	private JLabel lblText;
 
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public ProgressDialog(String title, String text, int min, int max, int value) {
+		setup();
+		setTitle(title);
+		
+		progressBar.setMinimum(min);
+		progressBar.setMaximum(max);
+		progressBar.setValue(value);
+		
+		lblText.setText(text);
+		
+	}
+	
+	public ProgressDialog(String title, String text) {
+		setup();
+		setTitle(title);
+		
+		progressBar.setIndeterminate(true);
+		
+		lblText.setText(text);
+	}
+	
+	private void setup() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 323, 140);
-		setTitle(title);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -25,14 +49,12 @@ public class ProgressDialog extends JFrame {
 		
 		progressBar = new JProgressBar();
 		progressBar.setBounds(12, 39, 299, 27);
-		progressBar.setMinimum(min);
-		progressBar.setMaximum(max);
-		progressBar.setValue(value);
 		contentPane.add(progressBar);
 		
-		lblText = new JLabel(text);
-		lblText.setBounds(12, 12, 70, 15);
+		lblText = new JLabel("");
+		lblText.setBounds(12, 12, 299, 15);
 		contentPane.add(lblText);
+		
 	}
 	
 	public void updateValue(int value) {
