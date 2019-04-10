@@ -35,6 +35,25 @@ public class Instance {
 	}
 	
 	/**
+	 * Get String with system information
+	 * @return System information
+	 */
+	public static String getSystemSpecs() {
+		String specs = "NMC Launcher v" + C.VERSION + "\n"
+				+ "bootstrap_version: " + System.getProperty("bootstrap_version") + "\n"
+				+ "os.name: " + System.getProperty("os.name") + "\n"
+				+ "os.version: " + System.getProperty("os.version") + "\n"
+				+ "os.arch: " + System.getProperty("os.arch") + "\n"
+				+ "java.version: " + System.getProperty("java.version") + "\n"
+				+ "java.vendor: " + System.getProperty("java.vendor") + "\n"
+				+ "java.vm.name: " + System.getProperty("java.vm.name") + "\n"
+				+ "sun.arch.data.model: " + System.getProperty("sun.arch.data.model") + "\n"
+				+ "File.pathSeparator: " + File.pathSeparator + "\n"
+				+ "File.separator: " + File.separator + "\n";
+		return specs;
+	}
+	
+	/**
 	 * Gets NMC data directory
 	 * @return Path to NMC data directory
 	 */

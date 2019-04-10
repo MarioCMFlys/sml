@@ -2,9 +2,12 @@ package me.mariocmflys.nmc;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import org.apache.commons.io.FileUtils;
@@ -19,17 +22,34 @@ import me.mariocmflys.nmc.ui.ProgressDialog;
 
 public class Launch {
 	public static void main(String[] args) {
-		System.out.println("NMC Launcher v" + C.VERSION);
-		System.out.println("bootstrap_version=" + System.getProperty("bootstrap_version"));
-		System.out.println("os.name: " + System.getProperty("os.name"));
-		System.out.println("os.version: " + System.getProperty("os.version"));
-		System.out.println("os.arch: " + System.getProperty("os.arch"));
-		System.out.println("java.version: " + System.getProperty("java.version"));
-		System.out.println("java.vendor: " + System.getProperty("java.vendor"));
-		System.out.println("java.vm.name: " + System.getProperty("java.vm.name"));
-		System.out.println("sun.arch.data.model: " + System.getProperty("sun.arch.data.model"));
-		System.out.println("File.pathSeparator: " + File.pathSeparator);
-		System.out.println("File.separator: " + File.separator);
+		try {
+			init(args);
+		}
+		catch(Exception e) {
+			handleError(e);
+		}
+	}
+	
+	public static void handleError(Exception e) {
+		StringWriter stackTrace = new StringWriter();
+		e.printStackTrace(new PrintWriter(stackTrace));
+		String err = stackTrace.toString();
+		
+		System.err.println(err);
+		
+		String[] opt = {"Exit"};
+		JOptionPane.showOptionDialog(null,
+				"An unhandled error has occured\n\n" + err + "\n" + Instance.getSystemSpecs(),
+				"Simplified Minecraft Launcher",
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.ERROR_MESSAGE,
+				null,
+				opt, opt[0]);
+		System.exit(1);
+	}
+	
+	public static void init(String[] args) throws Exception {
+		System.out.println(Instance.getSystemSpecs());
 		
 		System.setProperty("http.agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0");
 		
