@@ -79,6 +79,12 @@ public class Launch {
 			Instance.config.save();
 		}
 		
+		if(!Instance.config.has("communicate")) {
+			Instance.config.set("communicate", true);
+			Instance.config.save();
+		}
+		
+		
 		if(Instance.config.has("client_token") && Instance.config.has("access_token") &&
 				Instance.config.has("username") && Instance.config.has("uuid") &&
 				Instance.config.has("user_type") && Instance.config.has("user_properties")) {
