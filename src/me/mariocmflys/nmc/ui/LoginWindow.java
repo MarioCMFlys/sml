@@ -38,7 +38,7 @@ public class LoginWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("Simple MC Launcher");
-		setBounds(100, 100, 450, 250);
+		setBounds(100, 100, 450, 240);
 		try {
 			setIconImage(ImageIO.read(MainWindow.class.getResource("/icon.png")));
 		} catch (IOException e) {
@@ -47,6 +47,7 @@ public class LoginWindow extends JFrame {
 		
 		JFrame loginFrame = this;
 		contentPane = new JPanel();
+		contentPane.setBackground(Appearance.color_bg);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new FormLayout(new ColumnSpec[] {
@@ -71,6 +72,7 @@ public class LoginWindow extends JFrame {
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblTitle = new JLabel("Simplified Minecraft Launcher");
+		lblTitle.setForeground(Appearance.color_text_emphasis);
 		contentPane.add(lblTitle, "4, 2");
 		
 		JLabel lblSubtitle = new JLabel("Use your Mojang account to sign in");
@@ -103,6 +105,7 @@ public class LoginWindow extends JFrame {
 		contentPane.add(chckbxSave, "4, 10");
 		
 		JButton btnSignIn = new JButton("Sign In");
+		btnSignIn.setBackground(Appearance.color_button);
 		btnSignIn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String login = fieldUsername.getText();
