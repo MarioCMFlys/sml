@@ -1,7 +1,9 @@
 package me.mariocmflys.nmc;
 
+import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.URL;
@@ -16,6 +18,7 @@ import org.json.JSONObject;
 
 import me.mariocmflys.nmc.launcher.Mojang;
 import me.mariocmflys.nmc.launcher.Player;
+import me.mariocmflys.nmc.ui.Appearance;
 import me.mariocmflys.nmc.ui.LoginWindow;
 import me.mariocmflys.nmc.ui.MainWindow;
 import me.mariocmflys.nmc.ui.ProgressDialog;
@@ -56,8 +59,24 @@ public class Launch {
 		Instance.config = new Config(Instance.getDataDir() + File.separator + "launcher.json");
 		Instance.config.create();
 		
-		try { 
-	        UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"); 
+		
+		System.out.println("Initializing fonts");
+		InputStream is = Launch.class.getResourceAsStream("/OpenSans-Regular.ttf");
+		Appearance.font_regular = Font.createFont(Font.TRUETYPE_FONT, is);
+		
+		java.util.Enumeration<Object> keys = UIManager.getDefaults().keys();
+	    while (keys.hasMoreElements()) {
+	      Object key = keys.nextElement();
+	      Object value = UIManager.get (key);
+	      if (value instanceof javax.swing.plaf.FontUIResource) {
+	        UIManager.put (key, Appearance.font_regular.deriveFont(14f));
+	      }
+	    }
+		
+		try {
+	        //UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+
 	    } 
 		catch(Exception e){
 			System.out.println("Failed to set look and feel");

@@ -43,15 +43,22 @@ public class ProgressDialog extends JFrame {
 		setBounds(100, 100, 323, 140);
 		
 		contentPane = new JPanel();
+		contentPane.setBackground(Appearance.color_bg);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		progressBar = new JProgressBar();
+		progressBar.setBorderPainted(false);
+		progressBar.setBorder(null);
+		progressBar.setBackground(Appearance.color_bg_light);
+		progressBar.setForeground(Appearance.color_highlight);
 		progressBar.setBounds(12, 39, 299, 27);
 		contentPane.add(progressBar);
 		
 		lblText = new JLabel("");
+		lblText.setFont(Appearance.font_regular.deriveFont(12f));
+		lblText.setForeground(Appearance.color_text);
 		lblText.setBounds(12, 12, 299, 15);
 		contentPane.add(lblText);
 		

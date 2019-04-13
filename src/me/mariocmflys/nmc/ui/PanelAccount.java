@@ -53,6 +53,8 @@ public class PanelAccount extends JPanel {
 		txtUuid.setColumns(10);
 		
 		JButton btnSignOut = new JButton("Sign Out");
+		btnSignOut.setBackground(Appearance.color_button);
+		btnSignOut.setForeground(Appearance.color_text);
 		btnSignOut.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Instance.signOut();

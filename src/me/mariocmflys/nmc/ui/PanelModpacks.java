@@ -1,9 +1,9 @@
 package me.mariocmflys.nmc.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import javax.swing.AbstractListModel;
@@ -13,9 +13,13 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSlider;
 import javax.swing.JSplitPane;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,17 +34,16 @@ import me.mariocmflys.nmc.launcher.MinecraftLauncher;
 import me.mariocmflys.nmc.launcher.OutputConsole.Type;
 import me.mariocmflys.nmc.launcher.Profile;
 import me.mariocmflys.nmc.launcher.TunedProfile;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.border.TitledBorder;
 
 @SuppressWarnings("serial")
 public class PanelModpacks extends JPanel {
 	public PanelModpacks(MainWindow mainWindow) {
 		setLayout(new BorderLayout(0, 0));
+		setBackground(Appearance.color_bg);
 		
 		JSplitPane splitPane = new JSplitPane();
+		splitPane.setBorder(null);
+		splitPane.setForeground(Appearance.color_bg);
 		add(splitPane, BorderLayout.CENTER);
 		
 		JScrollPane scrollProfiles = new JScrollPane();
@@ -50,23 +53,26 @@ public class PanelModpacks extends JPanel {
 		scrollProfiles.setViewportView(mainWindow.listProfiles);
 		
 		JPanel panelDetails = new JPanel();
+		panelDetails.setBackground(Appearance.color_bg_light);
 		splitPane.setRightComponent(panelDetails);
 		panelDetails.setLayout(null);
 		
 		JLabel lblName = new JLabel("Name");
-		lblName.setBounds(7, 7, 200, 15);
+		lblName.setFont(Appearance.font_regular.deriveFont(24f));
+		lblName.setBounds(7, 7, 412, 31);
 		panelDetails.add(lblName);
 		
 		JLabel lblAuthor = new JLabel("Author");
-		lblAuthor.setBounds(7, 29, 200, 15);
+		lblAuthor.setBounds(7, 43, 200, 15);
 		panelDetails.add(lblAuthor);
 		
 		JLabel lblNote = new JLabel("");
-		lblNote.setBounds(7, 56, 200, 15);
+		lblNote.setBounds(7, 70, 200, 15);
 		lblNote.setForeground(Color.RED);
 		panelDetails.add(lblNote);
 		
 		JPanel panelSettings = new JPanel();
+		panelSettings.setBackground(Appearance.color_bg_light);
 		panelSettings.setBorder(new TitledBorder(null, "User Settings", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panelSettings.setBounds(7, 97, 315, 153);
 		panelDetails.add(panelSettings);
@@ -93,6 +99,8 @@ public class PanelModpacks extends JPanel {
 				lblMemory.setText("Memory: " + sliderMemory.getValue() + "M");
 			}
 		});
+		sliderMemory.setBackground(Appearance.color_bg_light);
+		sliderMemory.setForeground(Appearance.color_highlight);
 		sliderMemory.setMinorTickSpacing(250);
 		sliderMemory.setMajorTickSpacing(1000);
 		sliderMemory.setPaintTicks(true);
@@ -101,6 +109,7 @@ public class PanelModpacks extends JPanel {
 		sliderMemory.setValue(1000);
 		
 		JButton btnSave = new JButton("Save");
+		btnSave.setBackground(Appearance.color_button);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int mem = sliderMemory.getValue();
@@ -125,6 +134,7 @@ public class PanelModpacks extends JPanel {
 		panelSettings.add(btnSave, "4, 6");
 		
 		JButton btnLaunch = new JButton("Play");
+		btnLaunch.setBackground(Appearance.color_button);
 		btnLaunch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnLaunch.setEnabled(false);
@@ -186,6 +196,7 @@ public class PanelModpacks extends JPanel {
 			}
 		}
 		
+		mainWindow.listProfiles.setBackground(Appearance.color_bg_light);
 		mainWindow.listProfiles.setModel(new AbstractListModel<String>() {
 			public int getSize() {
 				return mainWindow.profiles.size();

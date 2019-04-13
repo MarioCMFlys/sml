@@ -72,6 +72,8 @@ public class MainWindow {
 		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBackground(Appearance.color_bg_light);
+		tabbedPane.setForeground(Appearance.color_text);
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
 		PanelModpacks panelProfiles = new PanelModpacks(this);

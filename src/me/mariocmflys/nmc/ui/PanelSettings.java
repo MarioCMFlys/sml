@@ -71,6 +71,7 @@ public class PanelSettings extends JPanel {
 		txtAddProfile.setColumns(10);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.setBackground(Appearance.color_button);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String url = txtAddProfile.getText();
@@ -166,6 +167,7 @@ public class PanelSettings extends JPanel {
 		add(lblAboutCopyright, "4, 18");
 		
 		JButton lnkLicense = new JButton();
+		lnkLicense.setBackground(Appearance.color_button);
 	    lnkLicense.setText("License Information");
 	    lnkLicense.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

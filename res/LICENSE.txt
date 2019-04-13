@@ -7,6 +7,9 @@ This software is bundled with the following libraries:
  - Apache Commons IO, licensed under the Apache 2.0 license (4)
  - JGoodies Forms, licensed under the BSD-2-Clause license (3)
  - JGoodies Common, licensed under the BSD-2-Clause license (3)
+
+This software is bundled with the Open Sans font, which is available
+under the Apache 2.0 license (4)
  
 The licenses referenced above are as follows:
 
