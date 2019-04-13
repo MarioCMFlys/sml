@@ -14,7 +14,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.JSplitPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -34,6 +33,8 @@ import me.mariocmflys.nmc.launcher.MinecraftLauncher;
 import me.mariocmflys.nmc.launcher.OutputConsole.Type;
 import me.mariocmflys.nmc.launcher.Profile;
 import me.mariocmflys.nmc.launcher.TunedProfile;
+import java.awt.Component;
+import javax.swing.Box;
 
 @SuppressWarnings("serial")
 public class PanelModpacks extends JPanel {
@@ -41,20 +42,13 @@ public class PanelModpacks extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		setBackground(Appearance.color_bg);
 		
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setBorder(null);
-		splitPane.setForeground(Appearance.color_bg);
-		add(splitPane, BorderLayout.CENTER);
-		
-		JScrollPane scrollProfiles = new JScrollPane();
-		splitPane.setLeftComponent(scrollProfiles);
-		
-		mainWindow.listProfiles = new JList<String>();
-		scrollProfiles.setViewportView(mainWindow.listProfiles);
+		JPanel panelMain = new JPanel();
+		add(panelMain, BorderLayout.CENTER);
+		panelMain.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelDetails = new JPanel();
+		panelMain.add(panelDetails, BorderLayout.CENTER);
 		panelDetails.setBackground(Appearance.color_bg_light);
-		splitPane.setRightComponent(panelDetails);
 		panelDetails.setLayout(null);
 		
 		JLabel lblName = new JLabel("Name");
@@ -133,6 +127,8 @@ public class PanelModpacks extends JPanel {
 		});
 		panelSettings.add(btnSave, "4, 6");
 		
+		mainWindow.listProfiles = new JList<String>();
+		
 		JButton btnLaunch = new JButton("Play");
 		btnLaunch.setBackground(Appearance.color_button);
 		btnLaunch.addActionListener(new ActionListener() {
@@ -183,6 +179,18 @@ public class PanelModpacks extends JPanel {
 				}
 			}
 		});
+		
+		JPanel panelWest = new JPanel();
+		add(panelWest, BorderLayout.WEST);
+		panelWest.setLayout(new BorderLayout(0, 0));
+		
+		Component horizontalStrut = Box.createHorizontalStrut(150);
+		panelWest.add(horizontalStrut, BorderLayout.NORTH);
+		
+		JScrollPane scrollProfiles = new JScrollPane();
+		panelWest.add(scrollProfiles, BorderLayout.CENTER);
+		//scrollProfiles.setViewportView(mainWindow.listProfiles);
+		scrollProfiles.setViewportView(mainWindow.listProfiles);
 		add(btnLaunch, BorderLayout.SOUTH);
 		
 		JSONArray pr = Instance.config.getArray("installed_profiles");
