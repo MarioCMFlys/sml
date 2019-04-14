@@ -68,7 +68,7 @@ public class PanelModpacks extends JPanel {
 		JPanel panelSettings = new JPanel();
 		panelSettings.setBackground(Appearance.color_bg_light);
 		panelSettings.setBorder(new TitledBorder(null, "User Settings", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panelSettings.setBounds(7, 97, 315, 153);
+		panelSettings.setBounds(7, 97, 315, 163);
 		panelDetails.add(panelSettings);
 		panelSettings.setLayout(new FormLayout(new ColumnSpec[] {
 				FormSpecs.RELATED_GAP_COLSPEC,
@@ -76,6 +76,8 @@ public class PanelModpacks extends JPanel {
 				FormSpecs.RELATED_GAP_COLSPEC,
 				FormSpecs.DEFAULT_COLSPEC,},
 			new RowSpec[] {
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
@@ -126,6 +128,10 @@ public class PanelModpacks extends JPanel {
 			}
 		});
 		panelSettings.add(btnSave, "4, 6");
+		
+		JLabel lblMemoryWarning = new JLabel("");
+		lblMemoryWarning.setForeground(Color.RED);
+		panelSettings.add(lblMemoryWarning, "4, 8");
 		
 		mainWindow.listProfiles = new JList<String>();
 		
@@ -235,6 +241,11 @@ public class PanelModpacks extends JPanel {
 			lblAuthor.setText("Import a new profile in the Settings tab.");
 			
 			panelSettings.setVisible(false);
+		}
+		
+		if(!Instance.isServerVM()) {
+			lblMemoryWarning.setText("32-Bit: Memory cannot exceed 1000!");
+			sliderMemory.setMaximum(1000);
 		}
 	}
 }

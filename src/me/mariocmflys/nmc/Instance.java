@@ -49,7 +49,7 @@ public class Instance {
 				+ "java.vm.name: " + System.getProperty("java.vm.name") + "\n"
 				+ "sun.arch.data.model: " + System.getProperty("sun.arch.data.model") + "\n"
 				+ "File.pathSeparator: " + File.pathSeparator + "\n"
-				+ "File.separator: " + File.separator + "\n";
+				+ "File.separator: " + File.separator;
 		return specs;
 	}
 	
@@ -94,6 +94,14 @@ public class Instance {
 		} else {
 		    return System.getProperties().getProperty("java.home") + File.separator + "bin" + File.separator + "java";
 		}
+	}
+	
+	/**
+	 * Test if running in a 64-bit server VM
+	 * @return True if running in a server VM
+	 */
+	public static boolean isServerVM() {
+		return System.getProperty("java.vm.name").toLowerCase().contains("server");
 	}
 	
 	/**
