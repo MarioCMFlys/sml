@@ -1,8 +1,10 @@
 package me.mariocmflys.nmc.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
@@ -11,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import me.mariocmflys.nmc.Tweaker;
 import me.mariocmflys.nmc.launcher.TunedProfile;
 
 public class MainWindow {
@@ -87,5 +90,9 @@ public class MainWindow {
 		
 		JPanel panelPrefs = new PanelSettings(this);
 		scrollPrefs.setViewportView(panelPrefs);
+		
+		for(Entry<String, Component> entry : Tweaker.tabs.entrySet()) {
+			tabbedPane.add(entry.getKey(), entry.getValue());
+		}
 	}
 }
