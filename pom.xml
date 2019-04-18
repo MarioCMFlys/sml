@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.mariocmflys.nmc</groupId>
   <artifactId>newmclauncher</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.1.1</version>
   <name>Simplified MC Launcher</name>
   <description>Simple Minecraft launcher for distributing customized editions of the game.</description>
   <build>
