@@ -13,8 +13,9 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 import org.apache.commons.io.FileUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
+
+import me.mariocmflys.jsoncompat.JSONArray;
+import me.mariocmflys.jsoncompat.JSONObject;
 
 import me.mariocmflys.nmc.launcher.Mojang;
 import me.mariocmflys.nmc.launcher.Player;

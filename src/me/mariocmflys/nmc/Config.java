@@ -8,8 +8,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import me.mariocmflys.jsoncompat.JSONArray;
+import me.mariocmflys.jsoncompat.JSONObject;
 
 public class Config{
 	private String location = "";

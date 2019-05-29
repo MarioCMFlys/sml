@@ -11,8 +11,9 @@ import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
+
+import me.mariocmflys.jsoncompat.JSONArray;
+import me.mariocmflys.jsoncompat.JSONObject;
 
 import me.mariocmflys.nmc.C;
 import me.mariocmflys.nmc.Instance;

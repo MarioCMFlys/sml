@@ -20,8 +20,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import me.mariocmflys.jsoncompat.JSONArray;
+import me.mariocmflys.jsoncompat.JSONObject;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -114,15 +114,16 @@ public class PanelModpacks extends JPanel {
 				
 				
 				JSONArray prof = Instance.config.getArray("installed_profiles");
+				JSONArray newprof = new JSONArray();
 				for(int i = 0; i < prof.toList().size(); i++) {
 					JSONObject j = prof.getJSONObject(i);
 					if(j.getString("id").equals(tprofile.getID())) {
 						j.put("memory", mem);
-						break;
 					}
+					newprof.put(j);
 				}
 				Instance.config.remove("installed_profiles");
-				Instance.config.set("installed_profiles", prof);
+				Instance.config.set("installed_profiles", newprof);
 				Instance.config.save();
 				JOptionPane.showMessageDialog(mainWindow.frame, "Profile settings saved.", "Profile Management", JOptionPane.INFORMATION_MESSAGE);
 			}

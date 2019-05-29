@@ -4,8 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-import org.json.JSONObject;
-
+import me.mariocmflys.jsoncompat.JSONObject;
 import me.mariocmflys.nmc.Instance;
 
 public class TunedProfile {

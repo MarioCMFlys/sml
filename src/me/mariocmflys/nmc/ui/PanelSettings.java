@@ -19,8 +19,9 @@ import javax.swing.JTextField;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
+
+import me.mariocmflys.jsoncompat.JSONArray;
+import me.mariocmflys.jsoncompat.JSONObject;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;

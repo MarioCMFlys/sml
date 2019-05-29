@@ -1,7 +1,7 @@
 package me.mariocmflys.nmc.launcher;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import me.mariocmflys.jsoncompat.JSONArray;
+import me.mariocmflys.jsoncompat.JSONObject;
 
 /**
  * Object representing a profile. Data is at the discretion of the pack developer
