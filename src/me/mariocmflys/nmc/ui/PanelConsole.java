@@ -13,7 +13,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-import me.mariocmflys.nmc.launcher.OutputConsole;
+import me.mariocmflys.nmc.io.OutputConsole;
 
 @SuppressWarnings("serial")
 public class PanelConsole extends JPanel implements OutputConsole {

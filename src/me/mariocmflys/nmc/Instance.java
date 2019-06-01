@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import me.mariocmflys.nmc.launcher.Player;
+import me.mariocmflys.nmc.auth.Player;
 
 public class Instance {
 	/**

@@ -1,4 +1,4 @@
-package me.mariocmflys.nmc.launcher;
+package me.mariocmflys.nmc.auth;
 
 /**
  * Player object for authentication and launching

@@ -17,7 +17,11 @@ import me.mariocmflys.jsoncompat.JSONObject;
 
 import me.mariocmflys.nmc.C;
 import me.mariocmflys.nmc.Instance;
-import me.mariocmflys.nmc.launcher.OutputConsole.Type;
+import me.mariocmflys.nmc.auth.Player;
+import me.mariocmflys.nmc.io.OutputConsole;
+import me.mariocmflys.nmc.io.StreamFeed;
+import me.mariocmflys.nmc.io.Zipper;
+import me.mariocmflys.nmc.io.OutputConsole.Type;
 
 /**
  * Static definitions for launch related functions
@@ -162,7 +166,7 @@ public class MinecraftLauncher {
 			String hash = assetObj.getJSONObject(loc).getString("hash");
 			String hashStart = hash.substring(0, 2);
 			
-			String place = "https://resources.download.minecraft.net/" + hashStart + "/" + hash;
+			String place = C.URL_RESOURCE_DOWNLOAD + "/" + hashStart + "/" + hash;
 			File fileToMake = new File(assetDir + File.separator + "objects" + File.separator + hashStart + File.separator + hash);
 			
 			if(!fileToMake.exists()) {

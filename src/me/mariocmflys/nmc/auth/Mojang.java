@@ -1,4 +1,4 @@
-package me.mariocmflys.nmc.launcher;
+package me.mariocmflys.nmc.auth;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import me.mariocmflys.jsoncompat.JSONObject;
+import me.mariocmflys.nmc.C;
 
 public class Mojang {
 	
@@ -71,10 +72,9 @@ public class Mojang {
 	 * @return JSONObject of API response
 	 */
 	public static JSONObject generateToken(String username, String password) {
-		// https://authserver.mojang.com/authenticate
 		String body = "{\"agent\": {\"name\": \"Minecraft\",\"version\": 1},\"username\": \""+username+"\",\"password\": \""+password+"\"}";
 		try {
-			String json = getJSON("https://authserver.mojang.com/authenticate", body);
+			String json = getJSON(C.URL_YGGDRASIL + "/authenticate", body);
 			JSONObject b = new JSONObject(json);
 			return b;
 		} catch(Exception e) {
@@ -91,7 +91,7 @@ public class Mojang {
 	public static boolean validateToken(String token) {
 		String body = "{\"accessToken\": \""+token+"\"}";
 		try {
-			if(getJSON("https://authserver.mojang.com/validate", body) == null) {return false;}			
+			if(getJSON(C.URL_YGGDRASIL + "/validate", body) == null) {return false;}			
 			return true;
 		} catch(Exception e) {
 			return false;
@@ -107,7 +107,7 @@ public class Mojang {
 	public static boolean validateToken(String accessToken, String clientToken) {
 		String body = "{\"accessToken\": \""+accessToken+"\", \"clientToken\": \""+clientToken+"\"}";
 		try {
-			if(getJSON("https://authserver.mojang.com/validate", body) == null) {return false;}			
+			if(getJSON(C.URL_YGGDRASIL + "/validate", body) == null) {return false;}			
 			return true;
 		} catch(Exception e) {
 			return false;
@@ -123,7 +123,7 @@ public class Mojang {
 	public static String refreshToken(String token, String client) {
 		String body = "{\"accessToken\": \""+token+"\", \"clientToken\": \""+client+"\"}"; // this should work, but has not been tested ( same w validateToken above^)
 		try {
-			JSONObject j = new JSONObject(getJSON("https://authserver.mojang.com/refresh", body));
+			JSONObject j = new JSONObject(getJSON(C.URL_YGGDRASIL + "/refresh", body));
 			return j.getString("accessToken");
 		} catch(Exception e) {
 			return null;

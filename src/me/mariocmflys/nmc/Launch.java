@@ -16,9 +16,8 @@ import org.apache.commons.io.FileUtils;
 
 import me.mariocmflys.jsoncompat.JSONArray;
 import me.mariocmflys.jsoncompat.JSONObject;
-
-import me.mariocmflys.nmc.launcher.Mojang;
-import me.mariocmflys.nmc.launcher.Player;
+import me.mariocmflys.nmc.auth.Mojang;
+import me.mariocmflys.nmc.auth.Player;
 import me.mariocmflys.nmc.ui.Appearance;
 import me.mariocmflys.nmc.ui.LoginWindow;
 import me.mariocmflys.nmc.ui.MainWindow;

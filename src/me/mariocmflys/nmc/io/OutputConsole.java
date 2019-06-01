@@ -1,4 +1,4 @@
-package me.mariocmflys.nmc.launcher;
+package me.mariocmflys.nmc.io;
 
 import java.io.PrintStream;
 

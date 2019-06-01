@@ -23,8 +23,9 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import me.mariocmflys.nmc.C;
 import me.mariocmflys.nmc.Instance;
-import me.mariocmflys.nmc.launcher.Mojang;
-import me.mariocmflys.nmc.launcher.Player;
+import me.mariocmflys.nmc.auth.Mojang;
+import me.mariocmflys.nmc.auth.Player;
+
 import javax.swing.JCheckBox;
 
 @SuppressWarnings("serial")

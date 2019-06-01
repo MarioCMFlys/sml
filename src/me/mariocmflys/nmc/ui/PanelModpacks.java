@@ -29,8 +29,8 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
 import me.mariocmflys.nmc.Instance;
+import me.mariocmflys.nmc.io.OutputConsole.Type;
 import me.mariocmflys.nmc.launcher.MinecraftLauncher;
-import me.mariocmflys.nmc.launcher.OutputConsole.Type;
 import me.mariocmflys.nmc.launcher.Profile;
 import me.mariocmflys.nmc.launcher.TunedProfile;
 import java.awt.Component;
