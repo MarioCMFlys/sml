@@ -29,13 +29,14 @@ import me.mariocmflys.nmc.io.OutputConsole.Type;
 public class MinecraftLauncher {
 	/**
 	 * Launch Minecraft from a profile configuration
-	 * @param profile Profile object to launch 
+	 * @param tprofile Profile object to launch 
 	 * @param player Player's account and authentication data
 	 * @param libDir Libraries directory
 	 * @param clientDir Clients directory
 	 * @param workDir Working directory
 	 * @param assetDir Assets directory
 	 * @param indexDir Directory with indexes
+	 * @param console Console to write log to
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */

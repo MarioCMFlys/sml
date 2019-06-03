@@ -2,13 +2,24 @@ package me.mariocmflys.jsoncompat;
 
 import java.util.List;
 
+/**
+ * JSONArray
+ * Part of a compatibility layer for JSON conversion from org.json to json-simple
+ */
 @SuppressWarnings("serial")
 public class JSONArray extends org.json.simple.JSONArray {
 	
+	/**
+	 * Create an empty JSONArray
+	 */
 	public JSONArray() {
 		super();
 	}
 	
+	/**
+	 * Create a new JSONArray from json-simple JSONArray
+	 * @param array json-simple array
+	 */
 	public JSONArray(org.json.simple.JSONArray array) {
 		super();
 		

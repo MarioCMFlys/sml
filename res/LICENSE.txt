@@ -6,9 +6,9 @@ This software is bundled with the following libraries:
  - JSON Simple, licensed under the Apache 2.0 license (3)
      Copyright Yidong Fang
  - Apache Commons IO, licensed under the Apache 2.0 license (3)
- - JGoodies Forms, licensed under the BSD-2-Clause license (2)
+ - JGoodies Forms, licensed under the BSD-3-Clause license (2)
      Copyright (c) 2002-2015, JGoodies Software GmbH, All rights reserved.
- - JGoodies Common, licensed under the BSD-2-Clause license (2)
+ - JGoodies Common, licensed under the BSD-3-Clause license (2)
      Copyright (c) 2002-2015, JGoodies Software GmbH, All rights reserved.
 
 This software is bundled with the Open Sans font, which is available
@@ -40,7 +40,7 @@ SOFTWARE.
 
 ===============================================
 
-BSD 2-Clause License
+BSD 3-Clause License
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -51,6 +51,10 @@ modification, are permitted provided that the following conditions are met:
 2. Redistributions in binary form must reproduce the above copyright notice,
    this list of conditions and the following disclaimer in the documentation
    and/or other materials provided with the distribution.
+
+3. Neither the name of the copyright holder nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE

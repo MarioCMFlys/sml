@@ -8,15 +8,6 @@ public class Appearance {
 	public static Font font_regular = null;
 	
 	// Colors
-	/**
-	public static Color color_bg = new Color(32, 33, 35);
-	public static Color color_bg_light = new Color(50, 52, 55);
-	
-	public static Color color_text = new Color(204, 204, 204);
-	public static Color color_text_emphasis = Color.WHITE;
-	
-	public static Color color_highlight = new Color(65, 123, 240);
-	**/
 	public static Color color_bg = new Color(242, 242, 242);
 	public static Color color_bg_light = Color.WHITE;
 	

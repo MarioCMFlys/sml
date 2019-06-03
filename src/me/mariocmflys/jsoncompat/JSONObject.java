@@ -9,16 +9,23 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- * JSON-Object
+ * JSONObject
  * Part of a compatibility layer for JSON conversion from org.json to json-simple
  */
 @SuppressWarnings("serial")
 public class JSONObject extends org.json.simple.JSONObject {
 	
+	/**
+	 * Create an empty JSONObject
+	 */
 	public JSONObject() {
 		super();
 	}
 	
+	/**
+	 * Create a JSONObject from json-simple JSONObject
+	 * @param obj json-simple object
+	 */
 	public JSONObject(org.json.simple.JSONObject obj) {
 		super();
 		

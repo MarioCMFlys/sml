@@ -17,22 +17,39 @@ public class Config{
 	private JSONObject json;
 	private boolean readonly;
 	
+	/**
+	 * Create a new Config object with location
+	 * @param location URL to Config file
+	 */
 	public Config(String location) {
 		this.location = location;
 		this.file = new File(this.location);
 		this.readonly = false;
 		
 	}
+	
+	/**
+	 * Create a new Config object with location
+	 * @param location URL to Config file
+	 * @param ro Read only
+	 */
 	public Config(String location, boolean ro) {
 		this.location = location;
 		this.file = new File(this.location);
 		this.readonly = ro;
 	}
 	
+	/**
+	 * Check if the Config file exists
+	 * @return true if file exists
+	 */
 	public boolean exists() {
 		return file.exists();
 	}
 	
+	/**
+	 * Create from file
+	 */
 	public void create() {
 		if(!this.exists()) {
 			this.json = new JSONObject("{}");
@@ -51,6 +68,10 @@ public class Config{
 		}
 	}
 	
+	/**
+	 * Create from a BufferedReader
+	 * @param br reader to get data from
+	 */
 	public void create(BufferedReader br) {
 		Scanner s = new Scanner(br);
 		String content = s.useDelimiter("\\Z").next();
