@@ -57,7 +57,7 @@ public class PanelModpacks extends JPanel {
 		panelDetails.add(lblName);
 		
 		JLabel lblAuthor = new JLabel("Author");
-		lblAuthor.setBounds(7, 43, 200, 15);
+		lblAuthor.setBounds(7, 43, 412, 15);
 		panelDetails.add(lblAuthor);
 		
 		JLabel lblNote = new JLabel("");
