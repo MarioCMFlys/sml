@@ -80,6 +80,10 @@ public class Config{
 		
 	}
 	
+	public int getVersion() {
+		return this.getInt("lv");
+	}
+	
 	public String getString(String key) {
 		return this.json.getString(key);
 	}
@@ -137,6 +141,8 @@ public class Config{
 	
 	public void save() {
 		if(!readonly) {
+			this.set("lv", C.LOGICAL_VERSION);
+			
 			String content = this.toString();
 			
 			BufferedWriter bw = null;

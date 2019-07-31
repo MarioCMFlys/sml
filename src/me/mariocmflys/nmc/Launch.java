@@ -59,6 +59,24 @@ public class Launch {
 		Instance.config = new Config(Instance.getDataDir() + File.separator + "launcher.json");
 		Instance.config.create();
 		
+		if(Instance.config.has("lv")) {
+			int lv = Instance.config.getVersion();
+			System.out.println("Config LV: " + lv);
+			if(lv > C.LOGICAL_VERSION) {
+				JOptionPane.showMessageDialog(null, 
+					"You have loaded an older version of SML (" 
+						+ C.LOGICAL_VERSION 
+						+ ") than what your data files were last used with (" 
+						+ lv 
+						+ ").\nExpect problems!", 
+					"Simplified Minecraft Launcher", 
+					JOptionPane.WARNING_MESSAGE);
+			}
+		}
+		else {
+			System.out.println("Warning: config does not contain LV");
+			Instance.config.save();
+		}
 		
 		System.out.println("Initializing fonts");
 		InputStream is = Launch.class.getResourceAsStream("/OpenSans-Regular.ttf");
