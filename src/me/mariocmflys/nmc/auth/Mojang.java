@@ -72,7 +72,7 @@ public class Mojang {
 	 * @return JSONObject of API response
 	 */
 	public static JSONObject generateToken(String username, String password) {
-		String body = "{\"agent\": {\"name\": \"Minecraft\",\"version\": 1},\"username\": \""+username+"\",\"password\": \""+password+"\"}";
+		String body = "{\"agent\": {\"name\": \"Minecraft\",\"version\": 1},\"username\": \""+username+"\",\"password\": \""+password+"\",\"requestUser\":true}";
 		try {
 			String json = getJSON(C.URL_YGGDRASIL + "/authenticate", body);
 			JSONObject b = new JSONObject(json);

@@ -32,7 +32,11 @@ public class PanelAccount extends JPanel {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
-				FormSpecs.DEFAULT_ROWSPEC,}));
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 		
 		JLabel lblUser = new JLabel("User");
 		add(lblUser, "2, 2, right, default");
@@ -66,7 +70,19 @@ public class PanelAccount extends JPanel {
 				
 			}
 		});
-		add(btnSignOut, "4, 6");
+		
+		JLabel lblCreation = new JLabel("Created");
+		add(lblCreation, "2, 6");
+		
+		JLabel lblAccAge = new JLabel("LEGACY: SIGN IN AGAIN TO VIEW");
+		
+		if(Instance.config.has("user_created")) {
+			String date = new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new java.util.Date(Instance.config.getLong("user_created")));
+			lblAccAge.setText(date);
+		}
+		add(lblAccAge, "4, 6");
+		add(btnSignOut, "4, 8");
+		
 
 	}
 

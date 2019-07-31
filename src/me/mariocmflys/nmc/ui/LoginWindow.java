@@ -124,6 +124,7 @@ public class LoginWindow extends JFrame {
 					String accessToken = j.getString("accessToken");
 					String userType = "legacy";
 					String userProp = "{}";
+					long userCreated = j.getJSONObject("user").getLong("registeredAt");
 					
 					Instance.player = new Player(username, userUUID, accessToken, userType, userProp);
 					
@@ -134,6 +135,7 @@ public class LoginWindow extends JFrame {
 						Instance.config.set("uuid", userUUID);
 						Instance.config.set("user_type", userType);
 						Instance.config.set("user_properties", userProp);
+						Instance.config.set("user_created", userCreated);
 						Instance.config.save();						
 					}
 					
