@@ -75,11 +75,14 @@ public class PanelAccount extends JPanel {
 		add(lblCreation, "2, 6");
 		
 		JLabel lblAccAge = new JLabel("LEGACY: SIGN IN AGAIN TO VIEW");
-		
+		/**
 		if(Instance.config.has("user_created")) {
 			String date = new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new java.util.Date(Instance.config.getLong("user_created")));
 			lblAccAge.setText(date);
-		}
+		}**/
+		lblCreation.setText("");
+		lblAccAge.setText("");
+		
 		add(lblAccAge, "4, 6");
 		add(btnSignOut, "4, 8");
 		
