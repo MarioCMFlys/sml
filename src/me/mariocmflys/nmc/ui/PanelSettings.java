@@ -126,6 +126,10 @@ public class PanelSettings extends JPanel {
 		});
 		add(btnAdd, "4, 4");
 		
+		if(System.getProperty("nmc.mode").equalsIgnoreCase("offline")) {
+			txtAddProfile.setEnabled(false);
+			btnAdd.setEnabled(false);
+		}
 		
 		ButtonGroup grpCloseAction = new ButtonGroup();
 		

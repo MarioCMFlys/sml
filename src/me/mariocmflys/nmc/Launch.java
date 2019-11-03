@@ -12,6 +12,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.UnrecognizedOptionException;
 import org.apache.commons.io.FileUtils;
 
 import me.mariocmflys.jsoncompat.JSONArray;
@@ -51,8 +57,36 @@ public class Launch {
 		System.exit(1);
 	}
 	
+	private static Options makeOptions() {
+		Options o = new Options();
+		o.addOption("offline", false, "Force offline mode");
+		o.addOption("v", "version", false, "Print version and exit");
+		return o;
+	}
+	
 	public static void init(String[] args) throws Exception {
+		CommandLineParser cmdparse = new DefaultParser();
+		Options cmdopts = makeOptions();
+		CommandLine cmd = null;
+		try {
+			cmd = cmdparse.parse(cmdopts, args);
+		}
+		catch(UnrecognizedOptionException oe) {
+			System.out.println(oe.getMessage() + "\n\nUsage: ");
+			for(Option i: cmdopts.getOptions()) {
+				System.out.println("-" + i.getOpt() 
+						+ (i.hasArgName() ? " " + i.getArgName() : "")
+						+ ": " + i.getDescription());
+			}
+			System.exit(-1);
+		}
+		
+		if(cmd.hasOption("offline")) System.setProperty("nmc.mode", "offline");
+		else System.setProperty("nmc.mode", "default");
+		
 		System.out.println(Instance.getSystemSpecs());
+		
+		if(cmd.hasOption("v")) System.exit(0); // Exit after printing version
 		
 		System.setProperty("http.agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0");
 		
@@ -103,7 +137,7 @@ public class Launch {
 		
 		if(Instance.config.has("installed_profiles")) {
 			JSONArray profiles = Instance.config.getArray("installed_profiles");
-			if(profiles.toList().size() > 0) {
+			if(profiles.toList().size() > 0 && !cmd.hasOption("offline")) {
 				int size = profiles.toList().size();
 				ProgressDialog p = new ProgressDialog("Simplified Minecraft Launcher", "Updating profiles", 0, size, 0);
 				try {
@@ -143,6 +177,26 @@ public class Launch {
 			Instance.config.save();
 		}
 		
+		if(cmd.hasOption("offline")) {
+			String accessToken = "";
+			String username = "Steve";
+			String userUUID = "8667ba71b85a4004af54457a9734eed7";
+			String userType = "";
+			String userProperties = "";
+			if(Instance.config.has("client_token") && Instance.config.has("access_token") &&
+					Instance.config.has("username") && Instance.config.has("uuid") &&
+					Instance.config.has("user_type") && Instance.config.has("user_properties")) {
+				accessToken = Instance.config.getString("access_token");
+				username = Instance.config.getString("username");
+				userUUID = Instance.config.getString("uuid");
+				userType = Instance.config.getString("user_type");
+				userProperties = Instance.config.getString("user_properties");
+			}
+			Instance.player = new Player(username, userUUID, accessToken, userType, userProperties);
+			MainWindow window = new MainWindow();
+			window.setVisible(true);
+			return;
+		}
 		
 		if(Instance.config.has("client_token") && Instance.config.has("access_token") &&
 				Instance.config.has("username") && Instance.config.has("uuid") &&

@@ -41,6 +41,7 @@ public class Instance {
 	public static String getSystemSpecs() {
 		String specs = "NMC Launcher v" + C.VERSION + "\n"
 				+ "bootstrap_version: " + System.getProperty("bootstrap_version") + "\n"
+				+ "nmc.mode: " + System.getProperty("nmc.mode") + "\n" 
 				+ "os.name: " + System.getProperty("os.name") + "\n"
 				+ "os.version: " + System.getProperty("os.version") + "\n"
 				+ "os.arch: " + System.getProperty("os.arch") + "\n"

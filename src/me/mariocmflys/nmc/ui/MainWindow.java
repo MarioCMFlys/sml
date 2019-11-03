@@ -82,8 +82,10 @@ public class MainWindow {
 		PanelModpacks panelProfiles = new PanelModpacks(this);
 		tabbedPane.addTab("Profiles", null, panelProfiles, null);
 		
-		PanelAccount panelAccount = new PanelAccount(this);
-		tabbedPane.addTab("Account", null, panelAccount, null);
+		if(!System.getProperty("nmc.mode").equalsIgnoreCase("offline")) {
+			PanelAccount panelAccount = new PanelAccount(this);
+			tabbedPane.addTab("Account", null, panelAccount, null);
+		}
 		
 		JScrollPane scrollPrefs = new JScrollPane();
 		tabbedPane.addTab("Settings", null, scrollPrefs, null);
