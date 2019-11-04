@@ -1,6 +1,9 @@
 package me.mariocmflys.nmc;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -151,6 +154,36 @@ public class Instance {
 	            return testVer[i] > baseVer[i];
 
 	    return true;
+	}
+	
+	/**
+	 * Check if the client can access the internet. This function checks each 
+	 * of the listed URLs for 204 response code and if none are successful 
+	 * returns false.
+	 * @return true if any test is successful.
+	 */
+	public static boolean checkInternet() {
+		String[] testServers = {
+				"http://connectivitycheck.gstatic.com/generate_204",
+				"http://httpstat.us/204",
+				"http://ozuma.sakura.ne.jp/httpstatus/200"
+		};
+		HttpURLConnection con;
+		for(String i: testServers) {
+			try {
+				con = (HttpURLConnection) new URL(i).openConnection();
+				con.setConnectTimeout(1500);
+				con.setReadTimeout(1500);
+				con.connect();
+				
+				if(con.getResponseCode() == HttpURLConnection.HTTP_NO_CONTENT) {
+					return true;
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 	
 	/**

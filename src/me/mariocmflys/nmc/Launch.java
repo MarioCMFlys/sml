@@ -90,6 +90,32 @@ public class Launch {
 		
 		System.setProperty("http.agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0");
 		
+		// Check internet connectivity
+		if(!System.getProperty("nmc.mode").equalsIgnoreCase("offline")) {
+			if(!Instance.checkInternet()) {
+				System.err.println("Internet check failed");
+				Object[] netOpts = new Object[] {"Continue offline", "Ignore", "Exit"};
+				int c = JOptionPane.showOptionDialog(null, 
+						"Failed to connect to internet. What would you like to do?", 
+						"Simplified Minecraft Launcher", 
+						JOptionPane.YES_NO_CANCEL_OPTION, 
+						JOptionPane.WARNING_MESSAGE, null, 
+						netOpts, netOpts[0]);
+				switch(c) {
+				case JOptionPane.YES_OPTION:
+					System.setProperty("nmc.mode", "offline");
+					System.out.println("Continuing in offline mode");
+					break;
+				case JOptionPane.NO_OPTION:
+					System.out.println("Continuing as normal");
+					break;
+				case JOptionPane.CANCEL_OPTION:
+					System.out.println("Quitting!");
+					System.exit(0);
+				}
+			}
+		}
+		
 		Instance.config = new Config(Instance.getDataDir() + File.separator + "launcher.json");
 		Instance.config.create();
 		
@@ -137,7 +163,7 @@ public class Launch {
 		
 		if(Instance.config.has("installed_profiles")) {
 			JSONArray profiles = Instance.config.getArray("installed_profiles");
-			if(profiles.toList().size() > 0 && !cmd.hasOption("offline")) {
+			if(profiles.toList().size() > 0 && !System.getProperty("nmc.mode").equalsIgnoreCase("offline")) {
 				int size = profiles.toList().size();
 				ProgressDialog p = new ProgressDialog("Simplified Minecraft Launcher", "Updating profiles", 0, size, 0);
 				try {
@@ -177,7 +203,7 @@ public class Launch {
 			Instance.config.save();
 		}
 		
-		if(cmd.hasOption("offline")) {
+		if(System.getProperty("nmc.mode").equalsIgnoreCase("offline")) {
 			String accessToken = "";
 			String username = "Steve";
 			String userUUID = "8667ba71b85a4004af54457a9734eed7";
