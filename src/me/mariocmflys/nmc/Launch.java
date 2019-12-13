@@ -61,6 +61,7 @@ public class Launch {
 		Options o = new Options();
 		o.addOption("offline", false, "Force offline mode");
 		o.addOption("v", "version", false, "Print version and exit");
+		o.addOption("datadir", true, "Specifies data directory");
 		return o;
 	}
 	
@@ -87,6 +88,8 @@ public class Launch {
 		System.out.println(Instance.getSystemSpecs());
 		
 		if(cmd.hasOption("v")) System.exit(0); // Exit after printing version
+		
+		if(cmd.hasOption("datadir")) Instance.datadir = cmd.getOptionValue("datadir");
 		
 		System.setProperty("http.agent", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:66.0) Gecko/20100101 Firefox/66.0");
 		

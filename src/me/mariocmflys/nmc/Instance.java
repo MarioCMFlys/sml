@@ -21,6 +21,11 @@ public class Instance {
 	public static Player player;
 	
 	/**
+	 * User-specified data directory
+	 */
+	public static String datadir = null;
+	
+	/**
 	 * Replaces / with the appropriate directory separator 
 	 * @param url Input URL
 	 * @return New URL matching OS standards
@@ -62,6 +67,9 @@ public class Instance {
 	 * @return Path to NMC data directory
 	 */
 	public static String getDataDir() {
+		if(datadir != null) {
+			return datadir;
+		}
 		return System.getProperty("user.home") + File.separator + ".sml";
 	}
 	
