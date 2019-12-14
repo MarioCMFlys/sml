@@ -39,7 +39,7 @@ public class LoginWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("Simple MC Launcher");
-		setBounds(100, 100, 450, 240);
+		setBounds(100, 100, 450, 300);
 		try {
 			setIconImage(ImageIO.read(MainWindow.class.getResource("/icon.png")));
 		} catch (IOException e) {
