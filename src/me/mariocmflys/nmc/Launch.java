@@ -2,6 +2,7 @@ package me.mariocmflys.nmc;
 
 import java.awt.Font;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -24,6 +25,9 @@ import me.mariocmflys.jsoncompat.JSONArray;
 import me.mariocmflys.jsoncompat.JSONObject;
 import me.mariocmflys.nmc.auth.Mojang;
 import me.mariocmflys.nmc.auth.Player;
+import me.mariocmflys.nmc.io.OutputConsole.Type;
+import me.mariocmflys.nmc.launcher.MinecraftLauncher;
+import me.mariocmflys.nmc.launcher.TunedProfile;
 import me.mariocmflys.nmc.ui.Appearance;
 import me.mariocmflys.nmc.ui.LoginWindow;
 import me.mariocmflys.nmc.ui.MainWindow;
@@ -62,6 +66,7 @@ public class Launch {
 		o.addOption("offline", false, "Force offline mode");
 		o.addOption("v", "version", false, "Print version and exit");
 		o.addOption("datadir", true, "Specifies data directory");
+		o.addOption("start", true, "Launch profile");
 		return o;
 	}
 	
@@ -222,6 +227,12 @@ public class Launch {
 				userProperties = Instance.config.getString("user_properties");
 			}
 			Instance.player = new Player(username, userUUID, accessToken, userType, userProperties);
+			
+			if(cmd.hasOption("start")) {
+				directLaunch(cmd.getOptionValue("start"));
+				return;
+			}
+			
 			MainWindow window = new MainWindow();
 			window.setVisible(true);
 			return;
@@ -252,6 +263,12 @@ public class Launch {
 					Instance.config.set("access_token", accessToken);
 					Instance.config.save();
 					Instance.player = new Player(username, userUUID, accessToken, userType, userProperties);
+					
+					if(cmd.hasOption("start")) {
+						directLaunch(cmd.getOptionValue("start"));
+						return;
+					}
+					
 					MainWindow window = new MainWindow();
 					window.setVisible(true);
 				}
@@ -268,5 +285,48 @@ public class Launch {
 			l.setVisible(true);
 		}
 	}
-
+	
+	public static void directLaunch(String id) {
+		JSONArray pr = Instance.config.getArray("installed_profiles");
+		TunedProfile p = null;
+		for(int i = 0; i<pr.toList().size(); i++) {
+			try {
+				TunedProfile xp = new TunedProfile(pr.getJSONObject(i));
+				if(xp.getID().equalsIgnoreCase(id)) {
+					p = xp;
+					p.attachProfile();
+					break;
+				}
+				
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		try {
+			File libDir = new File(Instance.getDataDir() + File.separator + "lib");
+			File clientDir = new File(Instance.getDataDir() + File.separator + "clients");
+			File workDir = new File(Instance.getDataDir() + File.separator + "profile" + File.separator + p.getID());
+			File assetDir = new File(Instance.getDataDir() + File.separator + "assets");
+			libDir.mkdirs();
+			clientDir.mkdirs();
+			workDir.mkdirs();
+			assetDir.mkdirs();
+			File indexDir = new File(assetDir.getAbsolutePath() + File.separator + "indexes");
+			indexDir.mkdirs();
+			
+			CLI c = new CLI();
+			try {
+				MinecraftLauncher.launch(p, Instance.player, libDir, clientDir, workDir, assetDir, indexDir, c);
+			} catch (Exception e) {
+				c.write("Failed to launch", Type.ERROR);
+				c.write(e, Type.ERROR);
+			}
+			
+		} catch (Exception e1) {
+			System.err.println("Fatal error occured while launching the game");
+			e1.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Failed to initialize launcher, see log for details", "Launch", JOptionPane.ERROR_MESSAGE);
+		}
+	}
 }
