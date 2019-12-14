@@ -23,6 +23,7 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import me.mariocmflys.nmc.C;
 import me.mariocmflys.nmc.Instance;
+import me.mariocmflys.nmc.Launch;
 import me.mariocmflys.nmc.auth.Mojang;
 import me.mariocmflys.nmc.auth.Player;
 
@@ -35,7 +36,7 @@ public class LoginWindow extends JFrame {
 	private JTextField fieldUsername;
 	private JPasswordField fieldPassword;
 
-	public LoginWindow() {
+	public LoginWindow(String directStartID) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("Simple MC Launcher");
@@ -108,6 +109,8 @@ public class LoginWindow extends JFrame {
 		JButton btnSignIn = new JButton("Sign In");
 		btnSignIn.setBackground(Appearance.color_button);
 		btnSignIn.addActionListener(new ActionListener() {
+			private String directStartID = null;
+			
 			public void actionPerformed(ActionEvent e) {
 				String login = fieldUsername.getText();
 				String password = String.valueOf(fieldPassword.getPassword());
@@ -141,6 +144,16 @@ public class LoginWindow extends JFrame {
 					
 					loginFrame.setVisible(false);
 					loginFrame.dispose();
+					
+					if(directStartID != null) {
+						new Thread() {
+							public void run() {
+								Launch.directLaunch(directStartID);
+							}
+						}.start();
+						return;
+					}
+					
 					MainWindow w = new MainWindow();
 					w.setVisible(true);
 				}
@@ -148,7 +161,11 @@ public class LoginWindow extends JFrame {
 					lblErr.setText("Failed to login");
 				}
 			}
-		});
+			public ActionListener init(String directStartID) {
+				this.directStartID = directStartID;
+				return this;
+			}
+		}.init(directStartID));
 		
 		contentPane.add(btnSignIn, "4, 12");
 		

@@ -280,14 +280,14 @@ public class Launch {
 				}
 				else {
 					System.out.println("Client identified invalid");
-					LoginWindow l = new LoginWindow();
+					LoginWindow l = new LoginWindow(cmd.getOptionValue("start"));
 					l.setVisible(true);
 				}
 			}
 		}
 		else {
 			System.out.println("No login data saved");
-			LoginWindow l = new LoginWindow();
+			LoginWindow l = new LoginWindow(cmd.getOptionValue("start"));
 			l.setVisible(true);
 		}
 	}

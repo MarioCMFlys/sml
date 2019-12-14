@@ -65,7 +65,7 @@ public class PanelAccount extends JPanel {
 				
 				mainWindow.setVisible(false);
 				mainWindow.dispose();
-				LoginWindow l = new LoginWindow();
+				LoginWindow l = new LoginWindow(null);
 				l.setVisible(true);
 				
 			}
