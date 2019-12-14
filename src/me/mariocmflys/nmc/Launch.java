@@ -252,6 +252,12 @@ public class Launch {
 			if(Mojang.validateToken(accessToken, clientToken)) {
 				System.out.println("Token valid, logged in as " + username);
 				Instance.player = new Player(username, userUUID, accessToken, userType, userProperties);
+				
+				if(cmd.hasOption("start")) {
+					directLaunch(cmd.getOptionValue("start"));
+					return;
+				}
+				
 				MainWindow window = new MainWindow();
 				window.setVisible(true);
 			}
